@@ -57,7 +57,8 @@ namespace FairlaySampleClient
         public const int GETMATCHEDORDERS = 27;
         public const int REGISTERAPI = 23;  
         public const int GETMYBALANCE = 22;
-    
+
+        public const int SETREADONLY = 49;  
        
     }
 
@@ -104,7 +105,7 @@ namespace FairlaySampleClient
         public const int RESERVED9 = 39;
         public const int BITCOIN = 40;
         public const int BADMINTON = 42;
-
+       
 
 
     }

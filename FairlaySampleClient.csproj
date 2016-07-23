@@ -63,6 +63,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config.txt" />
     <Content Include="Newtonsoft.Json.dll" />
     <Content Include="Newtonsoft.Json.xml" />
     <None Include="README.rst" />

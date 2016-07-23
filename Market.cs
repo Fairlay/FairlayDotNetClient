@@ -168,7 +168,7 @@ namespace FairlaySampleClient
           
             if (inplay)
             {
-                        Status = StatusType.INPLAY;
+                 Status = StatusType.INPLAY;
             }
             else Status = MarketX.StatusType.ACTIVE;
             Ru = new Runner[runnerNames.Length];

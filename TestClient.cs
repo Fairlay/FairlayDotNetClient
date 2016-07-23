@@ -358,6 +358,17 @@ namespace FairlaySampleClient
             return false;
         }
 
+        //Warning: sets your current API Account to read only. This cannot be undone!
+        public bool setAPIAccountToReadOnly()
+        {
+
+            var cancelResult = makeReq(REQ.SETREADONLY, "");
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("success")) return true;
+            return false;
+        }
+
         public bool setForceNonce(bool forceNonce)
         {
 

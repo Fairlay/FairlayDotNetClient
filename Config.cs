@@ -60,7 +60,7 @@ namespace FairlaySampleClient
             {
 
 
-                using (System.IO.StreamReader reader = new System.IO.StreamReader(path, System.Text.Encoding.Default))  //openDialog.FileName
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(path, System.Text.Encoding.Default))  
                 {
                     string line;
                     int j = 0;
