@@ -9,15 +9,16 @@ namespace FairlaySampleClient
 
     public class REQChangeOrder
     {
-        public long Mid;
-        public int Rid;
-        public long Oid;
-        public decimal Am;
-        public decimal Pri;
-        public string Sub;
-        public UnmatchedOrder.Type Type;
-        public int Boa;
-        public int Mct;
+       
+        public long Mid;  //MarketID
+        public int Rid; //RunnerID  0:1st runner; 1: 2nd runner; ....
+        public long Oid;  //OrderId  (should be set to -1 if no old order shall be replaced)
+        public decimal Am; // Amount in mBTC   1500m  to bet 1.5BTC.  In case of ask orders this amount represents the liability, in case of bid orders this amount represents the possible winnings. 
+        public decimal Pri;  // Price with 3 decimals
+        public string Sub;   //  Custom String
+        public UnmatchedOrder.Type Type; 
+        public int Boa;  // Must be 0 for Bid Orders  and 1 for Ask.  Ask means that you bet on the outcome to happen.
+        public int Mct;  // should be set to 0
 
     }
 

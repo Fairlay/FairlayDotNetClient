@@ -236,8 +236,11 @@ namespace FairlaySampleClient
         //Allows you to create, cancel and alter orders
         //Set Pri to 0  to cancel an order
         //Set Oid to -1 to create an order
+        // Maximum allowed orders in one request: 50
         public bool changeOrders(REQChangeOrder[] coL)
         {
+            if (coL.Length > 50) return false;
+
             var answL = sendChangeOrders(coL);
           
             if (answL == null)

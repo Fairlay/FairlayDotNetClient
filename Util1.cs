@@ -45,7 +45,6 @@ namespace FairlaySampleClient
             {
                 using (var gs = new GZipStream(mso, CompressionMode.Compress))
                 {
-                    //msi.CopyTo(gs);
                     CopyTo(msi, gs);
                 }
 
@@ -107,10 +106,6 @@ namespace FairlaySampleClient
 
         public static string SignData(string message, string privateKey)
         {
-
-
-
-            //// The array to store the signed message in bytes
             byte[] signedBytes;
             using (var rsa = new RSACryptoServiceProvider())
             {
