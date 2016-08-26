@@ -78,6 +78,13 @@ namespace FairlaySampleClient
 
 
         }
+
+        public string[] getOrderbook(long mid)
+        {
+            var ts = makeReq(REQ.GETORDERBOOK, "" + mid);
+            if (ts == null) return null;
+            return ts.Split('~');
+        }
         #region PrivateGetRequests
         public ReturnBalance getBalance()
         {

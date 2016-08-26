@@ -16,25 +16,45 @@ namespace FairlaySampleClient
     {
         public Dictionary<long, MarketX> Markets;
         public DateTime LastCheck;
+        public long Offset;
+        public DateTime LastGetTimeCall;
+        private string RequestStr;
+
+        public GetAPI(string requestStr)
+        {
+            LastCheck = new DateTime(2015, 1, 1);
+            LastGetTimeCall = new DateTime(2015, 1, 1);
+            Markets = new Dictionary<long, MarketX>();
+            Offset = 0;
+            RequestStr = requestStr;
+        }
 
         //call this
-        public bool grab(string requestStr)
+        public bool grab()
         {
 
-            if (Markets == null)
+           
+
+            //TODO use server time to calculate offset  http://31.172.83.181:8080/free/time
+            if(LastGetTimeCall.AddMinutes(10) < Util1.getUTCNow)
             {
-                LastCheck = new DateTime(2015, 1, 1);
-                Markets = new Dictionary<long, MarketX>();
+                var time = OpenPage("http://31.172.83.181:8080/free6/time");
+                if (time == null) return false;
+                Offset = Util1.getUTCNow.Ticks - Convert.ToInt64(time);
+                LastGetTimeCall = Util1.getUTCNow;
             }
-            var submittedDate = JsonConvert.SerializeObject(LastCheck.AddMinutes(-10));
+
+            var submittedDate = JsonConvert.SerializeObject(LastCheck.AddSeconds(-10).AddTicks(-Offset));
             Random rc = new Random();
-            int use = rc.Next(1, 9);
+            int use = rc.Next(1, 10);
+            var lastCheck = Util1.getUTCNow;
 
-            var answer = OpenPage("http://31.172.83.181:8080/free" + use + "/markets/{"+requestStr+", \"ToID\":10000,\"SoftChangedAfter\":" + submittedDate + "}", 0);
+            var answer = OpenPage("http://31.172.83.181:8080/free" + use + "/markets/{"+RequestStr+", \"ToID\":10000,\"SoftChangedAfter\":" + submittedDate + "}");
 
 
-            LastCheck = Util1.getUTCNow;
             if (answer == null || answer.Contains("XError")) return false;
+
+           
 
             var mL = JsonConvert.DeserializeObject<List<MarketX>>(answer);
          
@@ -64,6 +84,9 @@ namespace FairlaySampleClient
             catch (Exception ex)
             {
             }
+
+            LastCheck = lastCheck;
+          
             return true;
         }
 
@@ -92,7 +115,7 @@ namespace FairlaySampleClient
         }
 
 
-        public static string OpenPage(string url, int tryx, string Method = WebRequestMethods.Http.Get, byte[] Parameters = null)
+        public static string OpenPage(string url, string Method = WebRequestMethods.Http.Get, byte[] Parameters = null)
         {
             string cont = null;
             try

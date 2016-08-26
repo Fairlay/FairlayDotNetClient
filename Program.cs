@@ -16,8 +16,11 @@ namespace FairlaySampleClient
             bool suc = tc.init(0);
 
 
-            var _GetAPI = new GetAPI();
-            bool suc_grab = _GetAPI.grab("\"Cat\":12 ,\"TypeOr\":[0],\"PeriodOr\":[1], \"OnlyActive\":true");
+
+            var _GetAPI = new GetAPI("\"Cat\":12 ,\"TypeOr\":[0],\"PeriodOr\":[1], \"OnlyActive\":true");
+
+            // call grab every 10 seconds to update your markets.
+            bool suc_grab = _GetAPI.grab();
             if(suc_grab)
             {
 
@@ -33,6 +36,7 @@ namespace FairlaySampleClient
                 if(!valid) return;
                 suc= tc.init(id);
             }
+            var nextPresidentOrderbook2016 = tc.getOrderbook(72633292476);
 
             if(suc)
             {
