@@ -49,7 +49,7 @@ namespace FairlaySampleClient
             var xf = tc.getBalance();
             Console.WriteLine("\r\nYour balance is: " + JsonConvert.SerializeObject(xf));
 
-            bool verifiedProof = tc.VerifyProofOfReserves();
+            bool verifiedProof = tc.VerifyProofOfReserves(xf.PrivReservedFunds);
             while(true)
             {
                 Console.WriteLine("\r\nEnter Command");

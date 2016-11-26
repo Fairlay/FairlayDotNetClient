@@ -36,7 +36,7 @@ namespace FairlaySampleClient
         {
             if (branches[branches.Length - 1].hash != tophash) return false;
             //			Console.WriteLine("TOP HASH VALIDATED");
-            ProofUser user = new ProofUser(userName, 1m);
+            ProofUser user = new ProofUser(userName, userBalance);
             var userhash = user.GetHash();
             var pb = ProofBranch.MakeLeaf(user, user.balance);
           //  var bb = new ProofBlindBranch(l.hash, l.balance, 1);

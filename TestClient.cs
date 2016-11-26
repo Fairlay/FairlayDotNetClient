@@ -66,7 +66,7 @@ namespace FairlaySampleClient
             return false;
 
         }
-        public bool VerifyProofOfReserves()
+        public bool VerifyProofOfReserves(decimal userbalance)
         {
 
             var thash = makeReq(REQ.GETTOPHASH, "");
@@ -78,7 +78,7 @@ namespace FairlaySampleClient
             var myid = makeReq(REQ.GETMYPROOFID, "");
             var proof = makeReq(REQ.GETPROOFOFRESERVES, "");
             if (proof == null) return false;
-            bool verified = ProofUser.VerifyUserBranches(JsonConvert.DeserializeObject<ProofBlindBranch[]>(proof), myid, 0m, tophash.Hash);
+            bool verified = ProofUser.VerifyUserBranches(JsonConvert.DeserializeObject<ProofBlindBranch[]>(proof), myid, userbalance, tophash.Hash);
             return verified;
 
         }
