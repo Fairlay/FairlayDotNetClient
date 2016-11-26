@@ -66,16 +66,19 @@ namespace FairlaySampleClient
             return false;
 
         }
-        public bool VerifyProofOfReserves(decimal userbalance)
+        public bool VerifyProofOfReserves(decimal userbalance, string mustcontain)
         {
 
             var thash = makeReq(REQ.GETTOPHASH, "");
             if (String.IsNullOrEmpty(thash)) return false;
-
+            
+            //Compare with public tophash from twitter.           
             var tophash = JsonConvert.DeserializeObject<TopHash>(thash);
 
-            //Compare with public tophash.
-            var myid = makeReq(REQ.GETMYPROOFID, "");
+              var myid = makeReq(REQ.GETMYPROOFID, "");
+            if(myid == null) return false;
+            if (mustcontain != null && !myid.Contains(mustcontain)) return false;
+
             var proof = makeReq(REQ.GETPROOFOFRESERVES, "");
             if (proof == null) return false;
             bool verified = ProofUser.VerifyUserBranches(JsonConvert.DeserializeObject<ProofBlindBranch[]>(proof), myid, userbalance, tophash.Hash);
