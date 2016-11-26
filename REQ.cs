@@ -58,8 +58,12 @@ namespace FairlaySampleClient
         public const int REGISTERAPI = 23;  
         public const int GETMYBALANCE = 22;
 
-        public const int SETREADONLY = 49;  
-       
+        public const int SETREADONLY = 49;
+
+        public const int GETTOPHASH = 41; 
+        public const int GETPROOFOFRESERVES = 42;
+        public const int GETMYPROOFID = 50;  
+     
     }
 
 

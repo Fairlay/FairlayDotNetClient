@@ -45,7 +45,7 @@ namespace FairlaySampleClient
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             
 
@@ -63,14 +63,13 @@ namespace FairlaySampleClient
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(path, System.Text.Encoding.Default))  
                 {
                     string line;
-                    int j = 0;
                     line=reader.ReadToEnd();
                     return JsonConvert.DeserializeObject<ConfigDet>(line);
 
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
             }

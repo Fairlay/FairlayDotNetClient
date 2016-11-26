@@ -12,6 +12,7 @@ namespace FairlaySampleClient
         static void Main(string[] args)
         {
             TestClient tc = new TestClient();
+            
             Console.WriteLine("Your private and public key were saved in the config.txt file:\r\n" + tc.getPublicKey());
             bool suc = tc.init(0);
 
@@ -47,6 +48,8 @@ namespace FairlaySampleClient
 
             var xf = tc.getBalance();
             Console.WriteLine("\r\nYour balance is: " + JsonConvert.SerializeObject(xf));
+
+            bool verifiedProof = tc.VerifyProofOfReserves();
             while(true)
             {
                 Console.WriteLine("\r\nEnter Command");

@@ -35,6 +35,8 @@ namespace FairlaySampleClient
 
              
         }
+
+    
         public string getPublicKey()
         {
             if (Config == null) return null;
@@ -64,7 +66,22 @@ namespace FairlaySampleClient
             return false;
 
         }
+        public bool VerifyProofOfReserves()
+        {
 
+            var thash = makeReq(REQ.GETTOPHASH, "");
+            if (String.IsNullOrEmpty(thash)) return false;
+
+            var tophash = JsonConvert.DeserializeObject<TopHash>(thash);
+
+            //Compare with public tophash.
+            var myid = makeReq(REQ.GETMYPROOFID, "");
+            var proof = makeReq(REQ.GETPROOFOFRESERVES, "");
+            if (proof == null) return false;
+            bool verified = ProofUser.VerifyUserBranches(JsonConvert.DeserializeObject<ProofBlindBranch[]>(proof), myid, 0m, tophash.Hash);
+            return verified;
+
+        }
         public long getServerTime()
         {
 

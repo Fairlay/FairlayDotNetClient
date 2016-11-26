@@ -25,7 +25,7 @@ namespace FairlaySampleClient
                 {
                     return TimeZoneInfo.ConvertTime(t2, TimeZoneInfo.Local, sou);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return TimeZoneInfo.ConvertTime(t2.AddMinutes(60), TimeZoneInfo.Local, sou);
 
