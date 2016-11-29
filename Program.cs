@@ -48,8 +48,17 @@ namespace FairlaySampleClient
 
             var xf = tc.getBalance();
             Console.WriteLine("\r\nYour balance is: " + JsonConvert.SerializeObject(xf));
+            
+            //provide your email
             string yourusernameoremail = null;
-            bool verifiedProof = tc.VerifyProofOfReserves(xf.PrivReservedFunds, yourusernameoremail);
+
+            //retrieve from official source
+            string publictophash = null;
+
+            //retrieve from https://blockchain.info/address/1EVrCZ3ahUucq3jvAqTTPTZe1tySniXuWi
+            decimal sumFunds = 2200000.2m;
+
+            bool verifiedProof = tc.VerifyProofOfReserves(xf.PrivReservedFunds, yourusernameoremail, publictophash, sumFunds);
 
             Console.WriteLine("\r\nIs your balance verified?  " + verifiedProof);
         

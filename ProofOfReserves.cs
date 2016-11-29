@@ -25,34 +25,25 @@ namespace FairlaySampleClient
 
         public String GetHash()
         {
-          //  var test = Convert.ToString(balance);
-    //         var test = String.Format("{0:d}", balance);
-          
             var xf = Crypto.HashSHA256(name + Crypto.decimaltoString(balance));
              return xf;
         }
 
-        public static bool VerifyUserBranches(ProofBlindBranch[] branches, String userName, decimal userBalance, String tophash)
+        public static bool VerifyUserBranches(ProofBlindBranch[] branches, String userName, decimal userBalance, String tophash, decimal sumFunds)
         {
             if (branches[branches.Length - 1].hash != tophash) return false;
-            //			Console.WriteLine("TOP HASH VALIDATED");
-            ProofUser user = new ProofUser(userName, userBalance);
-            var userhash = user.GetHash();
-            var pb = ProofBranch.MakeLeaf(user, user.balance);
-          //  var bb = new ProofBlindBranch(l.hash, l.balance, 1);
-			
-           // user.ID = 1004056;
-          //  user.balance = 1m;
-            if (branches[0].hash != pb.hash) return false;
-            //			Console.WriteLine("USER HASH VALIDATED");
-            ProofBranch pb1, pb2;
-            for (int i = 0; i < branches.Length - 1; i++)
+            if (branches[branches.Length - 1].balance > sumFunds) return false;
+            var userhash = new ProofUser(userName, userBalance).GetHash();
+         	
+             if (branches[0].hash != userhash) return false;
+             ProofBranch pb1, pb2;
+            for (int i = 0; i < branches.Length-1; i++)
             {
                 pb1 = ProofBranch.MakeBranch(branches[i].hash, branches[i].GetNeighbours()[0].hash, branches[i].balance, branches[i].GetNeighbours()[0].balance, new List<ProofUser>());
                 pb2 = ProofBranch.MakeBranch(branches[i].GetNeighbours()[0].hash, branches[i].hash, branches[i].GetNeighbours()[0].balance, branches[i].balance, new List<ProofUser>());
                 if (pb1.hash != branches[i + 1].hash && pb2.hash != branches[i + 1].hash) return false;
                 if (branches[i].GetNeighbours()[0].balance < 0) return false;
-                //				Console.WriteLine("LAYER "+i+" BRANCH HASH VALIDATED");
+             
             }
             return true;
         }
