@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -117,7 +118,43 @@ namespace FairlaySampleClient
             catch (Exception) { }
             return null;
         }
+        //please state a reason for the cancellation if possible, which is forwarded to the other party
 
+
+        // 0:  not provided
+        // 1:  other reason
+        // 10: line changed
+        // 11: market offline
+        // 12: market  closed
+
+        // orderID represents the ID of the MATCHED order.
+        public bool makervoidMatchedOrder(long mid, int ruid, long orderID, int reason)
+        {
+            var cancelResult = makeReq(REQ.CANCELMATCHEDORDER, mid + "|" + reason + "|" + +ruid + "|" + orderID);
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("Cancellation successful")) return true;
+            if (cancelResult.Contains("Order will be cancelled after Activation")) return true;
+            if (cancelResult.Contains("Order does not exist")) return true;
+
+            return false;
+        }
+
+
+       //reason can be set to 0 if the order is confirmed
+        // please call this when possible for faster confirmation for the other party.
+        // orderID represents the ID of the MATCHED order.
+        public bool confirmMatchedOrder(long mid, int ruid, long orderID, int reason, decimal am = -1m)
+        {
+            var cancelResult = makeReq(REQ.CONFIRMMATCHEDORDER, mid + "|" + reason + "|" + ruid + "|" + orderID + "|" + am.ToString(CultureInfo.InvariantCulture));
+
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("Confirmation successful")) return true;
+            if (cancelResult.Contains("Order could not be confirmed")) return false;
+
+            return false;
+        }
      
         public List<ReturnUOrder> getLongUOrderList(long time)
         {
@@ -373,7 +410,7 @@ namespace FairlaySampleClient
         }
 
 
-        //Every order will be cancelled after X milliseconds without request
+        //Every unmatched order of your account will be cancelled after X milliseconds without any request of any API Account.
         public bool setAbsenceCancelPolicy(long mseconds)
         {
 

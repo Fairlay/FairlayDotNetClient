@@ -62,7 +62,11 @@ namespace FairlaySampleClient
 
         public const int GETTOPHASH = 41; 
         public const int GETPROOFOFRESERVES = 42;
-        public const int GETMYPROOFID = 50;  
+        public const int GETMYPROOFID = 50;
+
+        public const int CANCELMATCHEDORDER = 9;  
+        public const int CONFIRMMATCHEDORDER = 88;  
+    
      
     }
 
