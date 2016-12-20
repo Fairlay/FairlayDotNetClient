@@ -15,7 +15,7 @@ namespace FairlaySampleClient
         //when two open orders are matched, a Matched Order is created in the PENDING state.  
         // If the maker of the bet cancels his bet within a certain time period (usually 0, 3 or 6 seconds depending on the market) 
         // the bet goes into the state MAKERVOIDED and is void.
-        // When a market is settled the orders to in one of the settled states VOID, WON, HALFWON, LOST or HALFLOST.  
+        // When a market is settled the orders go in one of the settled states VOID, WON, HALFWON, LOST or HALFLOST.  
         // Decimal market go into the state DECIMALRESULT while the settlement value DecResult will be set.
         
         public enum MOState
