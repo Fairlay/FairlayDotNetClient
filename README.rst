@@ -6,6 +6,14 @@
 4. Provide details like your User ID, API Account ID, Private Key and the Server you like to connect to. You find a sample config file in the repository.
 
 
+Please note the following rules regarding the order matching: 
+ 
+1. When two open orders are matched, a Matched Order is created in the PENDING state.  
+2. If the maker of the bet cancels his bet within a certain time period the bet goes into the state MAKERVOIDED and is void.  The said time period is defined in each unmatched order  and matched order as "makerCancelTime" or "makerCT". The maximum allowed time is also given for each runner (which is usually 0, 3000 or 6000 milliseconds).
+3. When a market is settled the orders go to one of the settled states VOID, WON, HALFWON, LOST or HALFLOST.  
+4. Decimal market go into the state DECIMALRESULT while the settlement value DecResult will be set.
+
+
 The public key of the server is: 
 
 -----BEGIN PUBLIC KEY-----
