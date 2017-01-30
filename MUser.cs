@@ -67,13 +67,21 @@ namespace FairlaySampleClient
 
 
     public class MUserTransfer 
-    {     
+    {
+        public MUserTransfer(int from, int to, string descr, int ttype, decimal am)
+        {
+            ID2 = (long)(Util1.getUTCNow - new DateTime(2015, 1, 1)).TotalMilliseconds;
+            FromU = from;
+            ToU = to;
+            Descr = descr;
+            TType = ttype;
+            Amount = am;
+        }
 
         public long ID2;
         public int FromU;
         public int ToU;
         public string Descr;
-        public string Email;
         public int TType;
         public decimal Amount;
         public DateTime ExcludedCreationTime

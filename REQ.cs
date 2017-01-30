@@ -6,7 +6,34 @@ using System.Threading.Tasks;
 
 namespace FairlaySampleClient
 {
+    public class ChangeTimeReq
+    {
+        public long MID;
+        public DateTime? ClosD;
+        public DateTime? SetlD;
+    }
 
+
+    public class SettleReq
+    {
+        public long Mid;
+        public int Runner;
+        public int Win;
+        public bool Half;
+        public decimal Dec;
+        public decimal ORed;
+        public int[] VoidRunners;
+
+    }
+
+    public class SetRedReq
+    {
+        public long Mid;
+        public int Runner;
+        public long Oid;
+        public decimal Red;
+
+    }
     public class REQChangeOrder
     {
        
@@ -65,9 +92,18 @@ namespace FairlaySampleClient
         public const int GETMYPROOFID = 50;
 
         public const int CANCELMATCHEDORDER = 9;  
-        public const int CONFIRMMATCHEDORDER = 88;  
-    
+        public const int CONFIRMMATCHEDORDER = 88;
+
+        public const int TRANSFERFUNDS = 81;
+        public const int GETTRANSFERS = 82; 
+        public const int CHANGETIMEREQUEST = 84; 
      
+        public const int GETSTATEMENT = 85;
+        public const int SETTLEREQUEST = 86;
+
+        public const int LATESTBETS5MIN = 101; 
+        public const int LATESTBETS60MIN = 102; 
+    
     }
 
 

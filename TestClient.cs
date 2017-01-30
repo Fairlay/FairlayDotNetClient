@@ -45,15 +45,12 @@ namespace FairlaySampleClient
         }
         public bool init(int id=0)
         {
-            if (id != 0)
+            if (id != 0 && Config.ID != id)
             {
-                if (Config.ID != id)
-                {
-                    Config.ID = id;
-                    Config.WriteToFile();
-                }
-                else  Config.ID = id;
-              
+
+                Config.ID = id;
+                Config.WriteToFile();
+
             }
             if (Config.ID == 0)
             {
@@ -67,6 +64,8 @@ namespace FairlaySampleClient
             return false;
 
         }
+
+        #region PublicGetRequests
         public bool VerifyProofOfReserves(decimal userBalance, string mustContain, string publicTopHash, decimal sumFunds)
         {
 
@@ -75,7 +74,7 @@ namespace FairlaySampleClient
             
             var tophash = JsonConvert.DeserializeObject<TopHash>(thash);
             if (tophash == null || (publicTopHash != null && tophash.Hash != publicTopHash)) return false;
-              var myid = makeReq(REQ.GETMYPROOFID, "");
+             var myid = makeReq(REQ.GETMYPROOFID, "");
             if(myid == null) return false;
             if (mustContain != null && !myid.Contains(mustContain)) return false;
 
@@ -105,6 +104,35 @@ namespace FairlaySampleClient
             if (ts == null) return null;
             return ts.Split('~');
         }
+
+        public List<MatchedOrder> getLatestbets5min()
+        {
+            var response = makeReq(REQ.LATESTBETS5MIN, "");
+            if (response == null) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<List<MatchedOrder>>(response);
+            }
+            catch (Exception) { }
+            return null;
+        }
+
+        public List<MatchedOrder> getLatestbets60min()
+        {
+            var response = makeReq(REQ.LATESTBETS60MIN, "");
+            if (response == null) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<List<MatchedOrder>>(response);
+            }
+            catch (Exception) { }
+            return null;
+        }
+
+
+        #endregion
         #region PrivateGetRequests
         public ReturnBalance getBalance()
         {
@@ -118,43 +146,19 @@ namespace FairlaySampleClient
             catch (Exception) { }
             return null;
         }
-        //please state a reason for the cancellation if possible, which is forwarded to the other party
+       
 
-
-        // 0:  not provided
-        // 1:  other reason
-        // 10: line changed
-        // 11: market offline
-        // 12: market  closed
-
-        // orderID represents the ID of the MATCHED order.
-        public bool makervoidMatchedOrder(long mid, int ruid, long orderID, int reason)
+        // Provide the UTC time in Ticks.
+        public List<MUserStatement> getStatement(long sinceDate)
         {
-            var cancelResult = makeReq(REQ.CANCELMATCHEDORDER, mid + "|" + reason + "|" + +ruid + "|" + orderID);
-            if (cancelResult == null) return false;
+            var answer = makeReq(REQ.GETSTATEMENT, sinceDate.ToString());
 
-            if (cancelResult.Contains("Cancellation successful")) return true;
-            if (cancelResult.Contains("Order will be cancelled after Activation")) return true;
-            if (cancelResult.Contains("Order does not exist")) return true;
+            if (answer == null) return null;
 
-            return false;
+            var statement = JsonConvert.DeserializeObject<List<MUserStatement>>(answer);
+            return statement;
         }
-
-
-       //reason can be set to 0 if the order is confirmed
-        // please call this when possible for faster confirmation for the other party.
-        // orderID represents the ID of the MATCHED order.
-        public bool confirmMatchedOrder(long mid, int ruid, long orderID, int reason, decimal am = -1m)
-        {
-            var cancelResult = makeReq(REQ.CONFIRMMATCHEDORDER, mid + "|" + reason + "|" + ruid + "|" + orderID + "|" + am.ToString(CultureInfo.InvariantCulture));
-
-            if (cancelResult == null) return false;
-
-            if (cancelResult.Contains("Confirmation successful")) return true;
-            if (cancelResult.Contains("Order could not be confirmed")) return false;
-
-            return false;
-        }
+        //provide Dates in UTC
      
         public List<ReturnUOrder> getLongUOrderList(long time)
         {
@@ -294,7 +298,7 @@ namespace FairlaySampleClient
         }
         #endregion
 
-        #region ManageOrders
+        #region ManageOrderRequests
 
         //Allows you to create, cancel and alter orders
         //Set Pri to 0  to cancel an order
@@ -372,6 +376,42 @@ namespace FairlaySampleClient
             return null;
         }
 
+        //please state a reason for the cancellation if possible, which is forwarded to the other party
+        // 0:  not provided
+        // 1:  other reason
+        // 
+        // 10: line changed
+        // 11: market offline
+        // 12: market  closed
+        // orderID represents the ID of the MATCHED order.
+        public bool makervoidMatchedOrder(long mid, int ruid, long orderID, int reason)
+        {
+            var cancelResult = makeReq(REQ.CANCELMATCHEDORDER, mid + "|" + reason + "|" + +ruid + "|" + orderID);
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("Cancellation successful")) return true;
+            if (cancelResult.Contains("Order will be cancelled after Activation")) return true;
+            if (cancelResult.Contains("Order does not exist")) return true;
+
+            return false;
+        }
+
+
+        //reason can be set to 0 if the order is confirmed
+        // please call this when possible for faster confirmation for the other party.
+        // orderID represents the ID of the MATCHED order.
+        public bool confirmMatchedOrder(long mid, int ruid, long orderID, int reason, decimal am = -1m)
+        {
+            var cancelResult = makeReq(REQ.CONFIRMMATCHEDORDER, mid + "|" + reason + "|" + ruid + "|" + orderID + "|" + am.ToString(CultureInfo.InvariantCulture));
+
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("Confirmation successful")) return true;
+            if (cancelResult.Contains("Order could not be confirmed")) return false;
+
+            return false;
+        }
+     
         public bool cancelAllOrders()
         {
             var resp = makeReq(REQ.CANCELALLORDERS, "");
@@ -397,7 +437,7 @@ namespace FairlaySampleClient
 
         #endregion
 
-        #region OtherRequests
+        #region MarketRelatedRequests
 
         public long createMarket(MarketX m)
         {
@@ -408,7 +448,49 @@ namespace FairlaySampleClient
             return Mid;
 
         }
+        public bool ChangeMarketTimes(long mid, DateTime closD, DateTime setlD)
+        {
+            var trq = new ChangeTimeReq();
+            trq.MID = mid;
+            trq.ClosD = closD;
+            trq.SetlD = setlD;
 
+
+            var answer = makeReq(REQ.CHANGETIMEREQUEST, JsonConvert.SerializeObject(trq));
+            if (answer == null) return false;
+            return true;
+        }
+        //Settle a market you created. 
+        public bool settleMarket(long mid, int runnerid)
+        {
+            var xf = new SettleReq();
+            xf.Mid = 86543671577;
+            xf.Runner = 1;
+            xf.Win = 1;
+            xf.Half = true;
+            var respdd = makeReq(REQ.SETTLEREQUEST, JsonConvert.SerializeObject(xf));
+            if (respdd == null) return false;
+            return true;
+        }
+
+        #endregion
+        #region AccountRelatedRequests
+        public bool transferFunds(int to, string reference, int ttype, decimal amountMBTC)
+        {
+            var userTransfer = new MUserTransfer(Config.ID, to, reference, ttype,amountMBTC);
+            var answer = makeReq(REQ.TRANSFERFUNDS, JsonConvert.SerializeObject(userTransfer));
+
+            if (answer == null) return false;
+
+         //   var transfer = JsonConvert.DeserializeObject<MUserTransfer>(answer);
+            return true;   
+        }
+        // you will receive mBTCs in exchange for fairlay credits if you send funds to the user 111111 for example.
+        // withdrawal fees are subject to change.
+        public bool doWithdrawal(string address, decimal amountMBTC)
+        {
+            return transferFunds(111111, address, 2, amountMBTC);
+        }
 
         //Every unmatched order of your account will be cancelled after X milliseconds without any request of any API Account.
         public bool setAbsenceCancelPolicy(long mseconds)
@@ -421,7 +503,8 @@ namespace FairlaySampleClient
             return false;
         }
 
-        //Warning: sets your current API Account to read only. This cannot be undone!
+        //Warning: sets your current API Account to read only. This cannot be undone!  Never set your native api account #0 to read-only
+        // as you won't be able to create another API Account;
         public bool setAPIAccountToReadOnly()
         {
 
@@ -432,6 +515,7 @@ namespace FairlaySampleClient
             return false;
         }
 
+        //Force Nonce with every Requests - All GET-requests do not require a nonce by default
         public bool setForceNonce(bool forceNonce)
         {
 
@@ -451,7 +535,7 @@ namespace FairlaySampleClient
             int reqIDsend = reqID + 1000*Config.APIAccountID;
             string param = reqIDsend + "|" + param1;
 
-           string ret = _Client.DoRequestAndVerify(Config.SERVERIP, Config.PORT, param, SERVERKEY);
+            string ret = _Client.DoRequestAndVerify(Config.SERVERIP, Config.PORT, param, SERVERKEY);
             int triesunav = 0;
             while (ret != null && ret.Contains("XError: Service unavailable"))
             {
