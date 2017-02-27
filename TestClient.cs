@@ -133,6 +133,7 @@ namespace FairlaySampleClient
 
 
         #endregion
+
         #region PrivateGetRequests
         public ReturnBalance getBalance()
         {
@@ -400,6 +401,7 @@ namespace FairlaySampleClient
         //reason can be set to 0 if the order is confirmed
         // please call this when possible for faster confirmation for the other party.
         // orderID represents the ID of the MATCHED order.
+        // set the am(ount) to -1  to fully confirm tbe order, if only a part of it shall be confirmed, define the amount accordingly.
         public bool confirmMatchedOrder(long mid, int ruid, long orderID, int reason, decimal am = -1m)
         {
             var cancelResult = makeReq(REQ.CONFIRMMATCHEDORDER, mid + "|" + reason + "|" + ruid + "|" + orderID + "|" + am.ToString(CultureInfo.InvariantCulture));
@@ -448,6 +450,7 @@ namespace FairlaySampleClient
             return Mid;
 
         }
+
         public bool ChangeMarketTimes(long mid, DateTime closD, DateTime setlD)
         {
             var trq = new ChangeTimeReq();
@@ -461,20 +464,39 @@ namespace FairlaySampleClient
             return true;
         }
         //Settle a market you created. 
-        public bool settleMarket(long mid, int runnerid)
+        //The full turnover of the market will be deducted from your Available Balance for 3 to 4 days.
+        public bool settleMarket(long mid, int runnerid, bool win=true, bool half=false)
         {
             var xf = new SettleReq();
-            xf.Mid = 86543671577;
-            xf.Runner = 1;
-            xf.Win = 1;
-            xf.Half = true;
+            xf.Mid = mid;
+            xf.Runner = runnerid;
+            xf.Win = win? 1:2;
+            xf.Half = half;
             var respdd = makeReq(REQ.SETTLEREQUEST, JsonConvert.SerializeObject(xf));
             if (respdd == null) return false;
             return true;
         }
 
         #endregion
+
         #region AccountRelatedRequests
+
+
+        //If you are the maker of a bet, you will be notified via a TCP request with all details about the matched order
+        //make sure you listen on the selected port and ip and that your firewall is not blocking the requests
+        // each callback costs 1 request
+        // The Callbacks will automatically stop if  it fails more than 100 times or if you do not have enough requests left
+        // Special Permission dependent on the node you are connecting to are currently required
+        
+        public bool setCallbackIP(string ip, int port)
+        {
+            var answer = makeReq(REQ.SETCALLBACKIP, ip + ":" + port);      
+          
+            if (answer != null && answer == "success") return true;
+
+            return false;
+        }
+           
         public bool transferFunds(int to, string reference, int ttype, decimal amountMBTC)
         {
             var userTransfer = new MUserTransfer(Config.ID, to, reference, ttype,amountMBTC);
@@ -496,7 +518,7 @@ namespace FairlaySampleClient
         public bool setAbsenceCancelPolicy(long mseconds)
         {
 
-            var cancelResult = makeReq(REQ.SETABSENCECANCELPOLICY, "" + mseconds);
+            var cancelResult = makeReq(REQ.SETABSENCECANCELPOLICY, mseconds.ToString());
             if (cancelResult == null) return false;
 
             if (cancelResult.Contains("success")) return true;
@@ -520,6 +542,20 @@ namespace FairlaySampleClient
         {
 
             var cancelResult = makeReq(REQ.SETFORCENONCE, "" + forceNonce);
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("success")) return true;
+            return false;
+        }
+
+        //For market makers.   If you set ForceConfirm to false (default)  all bets that are matched against 
+        // your existing orders will go into the state MATCHED after the MAKERCANCELTIME has passed and no confirmation or cancellation was sent by you.
+        // If set to true, your orders will go into the state MAKERVOIDED after the MAKERCANCELTIME has passed and no confirmation or cancellation was sent by you.
+
+        public bool setForceConfirm(bool force)
+        {
+
+            var cancelResult = makeReq(REQ.SETFORCECONFIRM, "" + force);
             if (cancelResult == null) return false;
 
             if (cancelResult.Contains("success")) return true;

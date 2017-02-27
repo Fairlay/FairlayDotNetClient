@@ -101,9 +101,11 @@ namespace FairlaySampleClient
         public const int GETSTATEMENT = 85;
         public const int SETTLEREQUEST = 86;
 
-        public const int LATESTBETS5MIN = 101; 
-        public const int LATESTBETS60MIN = 102; 
-    
+        public const int LATESTBETS5MIN = 101;
+        public const int LATESTBETS60MIN = 102;
+        public const int SETCALLBACKIP = 103;
+        public const int SETFORCECONFIRM = 105;  
+     
     }
 
 
