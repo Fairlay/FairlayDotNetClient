@@ -23,6 +23,7 @@ namespace FairlaySampleClient
         public decimal Dec;
         public decimal ORed;
         public int[] VoidRunners;
+        public DateTime Executed;
 
     }
 
@@ -104,7 +105,8 @@ namespace FairlaySampleClient
         public const int LATESTBETS5MIN = 101;
         public const int LATESTBETS60MIN = 102;
         public const int SETCALLBACKIP = 103;
-        public const int SETFORCECONFIRM = 105;  
+        public const int SETFORCECONFIRM = 105; 
+        public const int LATESTSETTLEMENTS1H = 106;  
      
     }
 

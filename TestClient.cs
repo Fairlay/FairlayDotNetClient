@@ -131,6 +131,18 @@ namespace FairlaySampleClient
             return null;
         }
 
+        public List<SettleReq> getLatestSettlements()
+        {
+            var response = makeReq(REQ.LATESTSETTLEMENTS1H, "");
+            if (response == null) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<List<SettleReq>>(response);
+            }
+            catch (Exception) { }
+            return null;
+        }
 
         #endregion
 
