@@ -487,7 +487,7 @@ namespace FairlaySampleClient
             xf.Win = win? 1:2;
             xf.Half = half;
             var respdd = makeReq(REQ.SETTLEREQUEST, JsonConvert.SerializeObject(xf));
-            if (respdd == null) return false;
+            if (respdd == null || !respdd.Contains("settled")) return false;
             return true;
         }
 
