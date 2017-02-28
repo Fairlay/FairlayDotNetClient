@@ -18,11 +18,11 @@ namespace FairlaySampleClient
     {
         public long Mid;
         public int Runner;
-        public int Win;
-        public bool Half;
-        public decimal Dec;
-        public decimal ORed;
-        public int[] VoidRunners;
+        public int Win;  //The selected Runner either  won (1)  or lost (2)
+        public bool Half;  // Needed for example for markets like   Over/Under 2.25   which is Over / Under Markets 2.5  & 2.0     
+        public decimal Dec;  // For Decimal Markets
+        public decimal ORed;  // Odds Reduction   (for Horse Racings)
+        public int[] VoidRunners; // Voiding for Horse Racing Settlements
         public DateTime Executed;
 
     }
@@ -46,7 +46,7 @@ namespace FairlaySampleClient
         public string Sub;   //  Custom String
         public UnmatchedOrder.Type Type; 
         public int Boa;  // Must be 0 for Bid Orders  and 1 for Ask.  Ask means that you bet on the outcome to happen.
-        public int Mct;  // should be set to 0
+        public int Mct;  // should be set to 0 by default. Is only interesting for professional market makers. Learn more about it by reading how our matching process works in the README.rst
 
     }
 
@@ -106,8 +106,9 @@ namespace FairlaySampleClient
         public const int LATESTBETS60MIN = 102;
         public const int SETCALLBACKIP = 103;
         public const int SETFORCECONFIRM = 105; 
-        public const int LATESTSETTLEMENTS1H = 106;  
-     
+        public const int LATESTSETTLEMENTS1H = 106;
+        public const int SETSCREENNAME = 46;  
+       
     }
 
 

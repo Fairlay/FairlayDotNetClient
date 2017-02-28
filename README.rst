@@ -14,6 +14,16 @@ Please note the following rules regarding the order matching:
 4. When a market is settled the orders go to one of the settled states VOID, WON, HALFWON, LOST or HALFLOST.  
 5. Decimal market go into the state DECIMALRESULT while the settlement value DecResult will be set.
 
+Where can I find what?
+
+1. You find all available requests here: https://github.com/Fairlay/CSharpSampleClient/blob/master/TestClient.cs
+2. You find the recommended usage of our Public API here: https://github.com/Fairlay/CSharpSampleClient/blob/master/Program.cs#L21
+3. You find the full implementation of the Proof of Reserve here: https://github.com/Fairlay/CSharpSampleClient/blob/master/Program.cs#L53
+
+
+
+Please do not hesitate to contact our support. 
+
 
 The public key of the server is: 
 
@@ -23,8 +33,5 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC52cTT4XaVIUsmzfDJBP/ZbneO
 hNMvQqhOUGlnfHSvhJBkZf5mivI7k0VrhQHs1ti8onFkeeOcUmI22d/Tys6aB20N
 u6QedpWbubTrtX53KQIDAQAB
 -----END PUBLIC KEY-----
-
-or in XML format: 
-
 
 <RSAKeyValue><Modulus>udnE0+F2lSFLJs3wyQT/2W53juqh1hW9NaEwWMfefkV8FHUJTgJQINBrvja/Ii6i1W2ptBhNjin63K0stJmFArdi74TTL0KoTlBpZ3x0r4SQZGX+ZoryO5NFa4UB7NbYvKJxZHnjnFJiNtnf08rOmgdtDbukHnaVm7m067V+dyk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>

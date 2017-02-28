@@ -52,7 +52,7 @@ namespace FairlaySampleClient
 
             //Do a proof of reserve
 
-            //provide your email
+            //provide your email or custom username
             string yourusernameoremail = null;
 
             //retrieve from official source
@@ -61,6 +61,9 @@ namespace FairlaySampleClient
             //retrieve from https://blockchain.info/address/1EVrCZ3ahUucq3jvAqTTPTZe1tySniXuWi
             decimal sumFunds = 1700240m;
 
+
+            if(yourusernameoremail !=null)  tc.setPublicUserName(yourusernameoremail);
+           
             bool verifiedProof = tc.VerifyProofOfReserves(xf.PrivReservedFunds, yourusernameoremail, publictophash, sumFunds);
 
             Console.WriteLine("\r\nIs your balance verified?  " + verifiedProof);

@@ -131,6 +131,8 @@ namespace FairlaySampleClient
             return null;
         }
 
+        //Retrieve all settlements from the last 60 minutes.
+
         public List<SettleReq> getLatestSettlements()
         {
             var response = makeReq(REQ.LATESTSETTLEMENTS1H, "");
@@ -499,12 +501,22 @@ namespace FairlaySampleClient
         // each callback costs 1 request
         // The Callbacks will automatically stop if  it fails more than 100 times or if you do not have enough requests left
         // Special Permission dependent on the node you are connecting to are currently required
-        
+        public bool setPublicUserName(string name)
+        {
+
+            var answer = makeReq(REQ.SETSCREENNAME, "" + name);
+            if (answer != null && answer == "success") return true;
+          
+          
+            return false;
+        }
+
+
         public bool setCallbackIP(string ip, int port)
         {
             var answer = makeReq(REQ.SETCALLBACKIP, ip + ":" + port);      
-          
             if (answer != null && answer == "success") return true;
+          
 
             return false;
         }
