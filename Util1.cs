@@ -16,21 +16,7 @@ namespace FairlaySampleClient
         {
             get
             {
-                DateTime t2 = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified);
-
-                var sou = TimeZoneInfo.FindSystemTimeZoneById("UTC");
-
-
-                try
-                {
-                    return TimeZoneInfo.ConvertTime(t2, TimeZoneInfo.Local, sou);
-                }
-                catch (Exception)
-                {
-                    return TimeZoneInfo.ConvertTime(t2.AddMinutes(60), TimeZoneInfo.Local, sou);
-
-                }
-
+                return DateTime.UtcNow;                
             }
 
         }
