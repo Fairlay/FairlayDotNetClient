@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FairlaySampleClient
@@ -16,9 +19,11 @@ namespace FairlaySampleClient
         public string SERVERKEY;
       
         ConfigDet Config;
-
+        public bool RunCallbackListener;
+        public string MyIP;
+        public int MyPort;
         
-        public TestClient()
+        public TestClient(bool runcallback=false, string myip="", int myport=0)
         {
 
            Config = ConfigDet.ReadConfig();
@@ -33,12 +38,161 @@ namespace FairlaySampleClient
                 Config.WriteToFile();
                
             }
+            MyIP = myip;
+            MyPort = myport;
 
+           
+            RunCallbackListener = runcallback;
+            if(runcallback)
+            {
+                Thread t1 = new Thread(waitForCallback);
+                t1.Start();
+            }
              
         }
 
-    
-        public string getPublicKey()
+        public void waitForCallback()
+        {          
+           
+            TcpListener myList = new TcpListener(IPAddress.Parse("0.0.0.0"), MyPort);
+
+            try
+            {
+                myList.Start();
+
+            }
+            catch (Exception)
+            {
+                //alert
+                return;
+            }
+
+            var response2 = setCallbackIP(MyIP, MyPort);
+          
+            while (RunCallbackListener)
+            {
+                Socket s = myList.AcceptSocket();
+                int timeout = 3000;
+
+                s.ReceiveTimeout = timeout;
+                s.SendTimeout = timeout;
+
+                byte[] b = new byte[100000];
+                int k = 0;
+               
+                try
+                {
+                    k = s.Receive(b);
+                    string clientreq = Encoding.UTF8.GetString(b, 0, k);
+                    s.Close();
+
+                    if (clientreq.EndsWith("<ENDOFDATA>"))
+                    {
+                        clientreq = clientreq.Remove(clientreq.Length - 11);
+
+                        var clreqA = clientreq.Split('|');
+
+                        string sigString = clientreq.Substring(clientreq.IndexOf("|") + 1);
+                        var legimate = Util1.VerifyData(sigString, clreqA[0], SERVERKEY);
+
+                        var moString = clientreq.Substring(clreqA[0].Length + clreqA[1].Length + clreqA[2].Length + 3);
+
+                        if (!legimate)
+                        {
+                            //send alert
+                           
+                            continue;
+                        }
+
+
+                        var mro = JsonConvert.DeserializeObject<ReturnMOrder>(moString);
+
+                        //work with the matched order
+
+                        //confirm it 
+                        confirmAndSetPosition(mro);
+
+                        //confirm it partly (10mBTC)                      
+                        //confirmAndSetPosition(mro, 0, 10m);
+
+
+                        //or makervoid (cancel) it for some reason
+                        //confirmAndSetPosition(mro, 1, 0m);
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                 // send an alert...
+                }
+
+
+            }
+            myList.Stop();
+
+
+        }
+
+
+        public bool confirmAndSetPosition(ReturnMOrder mro, int reason=0, decimal am=-1)
+        {
+            if (am == 0)
+            {
+
+                var cancelResult =  makervoidMatchedOrder(mro._UserOrder.MarketID,mro._UserOrder.RunnerID, mro._UserOrder.OrderID, reason);
+
+                return cancelResult;
+                
+            }
+            else
+            {
+           
+              
+                var confirmResult = confirmMatchedOrder(mro._UserOrder.MarketID, mro._UserOrder.RunnerID, mro._UserOrder.OrderID, 0, am);
+
+                if (confirmResult)
+                {
+
+                     #region adjustInternalPosition
+                    //int ruLength = ?;
+                    //var position = new decimal[ruLength];
+
+                    //if (mro._UserOrder.BidOrAsk == 0)
+                    //{
+
+                    //    for (int uix = 0; uix < ruLength; uix++)
+                    //    {
+                    //        if (uix != mro._UserOrder.RunnerID)
+                    //        {
+                    //            position[uix] += Math.Round(am, 2);
+                    //        }
+                    //    }
+
+                    //    position[mro._UserOrder.RunnerID] -= Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
+                    //}
+                    //else
+                    //{
+
+                    //    for (int uix = 0; uix < ruLength; uix++)
+                    //    {
+                    //        if (uix != mro._UserOrder.RunnerID)
+                    //        {
+                    //            position[uix] -= Math.Round(am, 2);
+                    //        }
+                    //    }
+
+                    //    position[mro._UserOrder.RunnerID] += Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
+
+                    //}
+                    #endregion
+                }
+
+                return confirmResult;
+            }
+        }
+  
+         public string getPublicKey()
         {
             if (Config == null) return null;
             return Config.PublicRSAKey;
@@ -494,23 +648,26 @@ namespace FairlaySampleClient
         #endregion
 
         #region AccountRelatedRequests
-
-
-        //If you are the maker of a bet, you will be notified via a TCP request with all details about the matched order
-        //make sure you listen on the selected port and ip and that your firewall is not blocking the requests
-        // each callback costs 1 request
-        // The Callbacks will automatically stop if  it fails more than 100 times or if you do not have enough requests left
-        // Special Permission dependent on the node you are connecting to are currently required
         public bool setPublicUserName(string name)
         {
 
             var answer = makeReq(REQ.SETSCREENNAME, "" + name);
             if (answer != null && answer == "success") return true;
-          
-          
+
+
             return false;
         }
 
+
+        //if you are the maker of a bet, you will be notified via a TCP request with all details about the matched order
+        //make sure you listen on the selected port and ip and that your firewall is not blocking the requests
+        //each callback costs 1 request
+        //the callbacks will automatically stop if they fail more than 100 times or if you do not have enough requests left
+        //Special Permission dependent on the node you are connecting to are currently required
+        //make sure the runner market you are betting on allows you to cancel (makervoid) bets after they are matched  (VisDelay must be >0)
+        //also, you must set makerCT of your UnmatchedOrder to a value less or equal to the VisDelay of the Runner Market you are betting on
+        //you are than able to void any MatchedOrder within "makerCT" milliseconds. After that the MatchedOrder will go from State PENDING to MATCHED.
+               
 
         public bool setCallbackIP(string ip, int port)
         {
