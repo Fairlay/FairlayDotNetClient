@@ -51,147 +51,7 @@ namespace FairlaySampleClient
              
         }
 
-        public void waitForCallback()
-        {          
-           
-            TcpListener myList = new TcpListener(IPAddress.Parse("0.0.0.0"), MyPort);
-
-            try
-            {
-                myList.Start();
-
-            }
-            catch (Exception)
-            {
-                //alert
-                return;
-            }
-
-            var response2 = setCallbackIP(MyIP, MyPort);
-          
-            while (RunCallbackListener)
-            {
-                Socket s = myList.AcceptSocket();
-                int timeout = 3000;
-
-                s.ReceiveTimeout = timeout;
-                s.SendTimeout = timeout;
-
-                byte[] b = new byte[100000];
-                int k = 0;
-               
-                try
-                {
-                    k = s.Receive(b);
-                    string clientreq = Encoding.UTF8.GetString(b, 0, k);
-                    s.Close();
-
-                    if (clientreq.EndsWith("<ENDOFDATA>"))
-                    {
-                        clientreq = clientreq.Remove(clientreq.Length - 11);
-
-                        var clreqA = clientreq.Split('|');
-
-                        string sigString = clientreq.Substring(clientreq.IndexOf("|") + 1);
-                        var legimate = Util1.VerifyData(sigString, clreqA[0], SERVERKEY);
-
-                        var moString = clientreq.Substring(clreqA[0].Length + clreqA[1].Length + clreqA[2].Length + 3);
-
-                        if (!legimate)
-                        {
-                            //send alert
-                           
-                            continue;
-                        }
-
-
-                        var mro = JsonConvert.DeserializeObject<ReturnMOrder>(moString);
-
-                        //work with the matched order
-
-                        //confirm it 
-                        confirmAndSetPosition(mro);
-
-                        //confirm it partly (10mBTC)                      
-                        //confirmAndSetPosition(mro, 0, 10m);
-
-
-                        //or makervoid (cancel) it for some reason
-                        //confirmAndSetPosition(mro, 1, 0m);
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                 // send an alert...
-                }
-
-
-            }
-            myList.Stop();
-
-
-        }
-
-
-        public bool confirmAndSetPosition(ReturnMOrder mro, int reason=0, decimal am=-1)
-        {
-            if (am == 0)
-            {
-
-                var cancelResult =  makervoidMatchedOrder(mro._UserOrder.MarketID,mro._UserOrder.RunnerID, mro._UserOrder.OrderID, reason);
-
-                return cancelResult;
-                
-            }
-            else
-            {
-           
-              
-                var confirmResult = confirmMatchedOrder(mro._UserOrder.MarketID, mro._UserOrder.RunnerID, mro._UserOrder.OrderID, 0, am);
-
-                if (confirmResult)
-                {
-
-                     #region adjustInternalPosition
-                    //int ruLength = ?;
-                    //var position = new decimal[ruLength];
-
-                    //if (mro._UserOrder.BidOrAsk == 0)
-                    //{
-
-                    //    for (int uix = 0; uix < ruLength; uix++)
-                    //    {
-                    //        if (uix != mro._UserOrder.RunnerID)
-                    //        {
-                    //            position[uix] += Math.Round(am, 2);
-                    //        }
-                    //    }
-
-                    //    position[mro._UserOrder.RunnerID] -= Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
-                    //}
-                    //else
-                    //{
-
-                    //    for (int uix = 0; uix < ruLength; uix++)
-                    //    {
-                    //        if (uix != mro._UserOrder.RunnerID)
-                    //        {
-                    //            position[uix] -= Math.Round(am, 2);
-                    //        }
-                    //    }
-
-                    //    position[mro._UserOrder.RunnerID] += Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
-
-                    //}
-                    #endregion
-                }
-
-                return confirmResult;
-            }
-        }
-  
+      
          public string getPublicKey()
         {
             if (Config == null) return null;
@@ -667,8 +527,8 @@ namespace FairlaySampleClient
         //make sure the runner market you are betting on allows you to cancel (makervoid) bets after they are matched  (VisDelay must be >0)
         //also, you must set makerCT of your UnmatchedOrder to a value less or equal to the VisDelay of the Runner Market you are betting on
         //you are than able to void any MatchedOrder within "makerCT" milliseconds. After that the MatchedOrder will go from State PENDING to MATCHED.
-               
 
+      
         public bool setCallbackIP(string ip, int port)
         {
             var answer = makeReq(REQ.SETCALLBACKIP, ip + ":" + port);      
@@ -677,7 +537,149 @@ namespace FairlaySampleClient
 
             return false;
         }
-           
+
+
+        private void waitForCallback()
+        {
+
+            TcpListener myList = new TcpListener(IPAddress.Parse("0.0.0.0"), MyPort);
+
+            try
+            {
+                myList.Start();
+
+            }
+            catch (Exception)
+            {
+                //alert
+                return;
+            }
+
+            var response2 = setCallbackIP(MyIP, MyPort);
+
+            while (RunCallbackListener)
+            {
+                Socket s = myList.AcceptSocket();
+                int timeout = 3000;
+
+                s.ReceiveTimeout = timeout;
+                s.SendTimeout = timeout;
+
+                byte[] b = new byte[100000];
+                int k = 0;
+
+                try
+                {
+                    k = s.Receive(b);
+                    string clientreq = Encoding.UTF8.GetString(b, 0, k);
+                    s.Close();
+
+                    if (clientreq.EndsWith("<ENDOFDATA>"))
+                    {
+                        clientreq = clientreq.Remove(clientreq.Length - 11);
+
+                        var clreqA = clientreq.Split('|');
+
+                        string sigString = clientreq.Substring(clientreq.IndexOf("|") + 1);
+                        var legimate = Util1.VerifyData(sigString, clreqA[0], SERVERKEY);
+
+                        var moString = clientreq.Substring(clreqA[0].Length + clreqA[1].Length + clreqA[2].Length + 3);
+
+                        if (!legimate)
+                        {
+                            //send alert
+
+                            continue;
+                        }
+
+
+                        var mro = JsonConvert.DeserializeObject<ReturnMOrder>(moString);
+
+                        //work with the matched order
+
+                        //confirm it 
+                        confirmAndSetPosition(mro);
+
+                        //confirm it partly (10mBTC)                      
+                        //confirmAndSetPosition(mro, 0, 10m);
+
+
+                        //or makervoid (cancel) it for some reason
+                        //confirmAndSetPosition(mro, 1, 0m);
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    // send an alert...
+                }
+
+
+            }
+            myList.Stop();
+
+
+        }
+
+
+        private bool confirmAndSetPosition(ReturnMOrder mro, int reason = 0, decimal am = -1)
+        {
+            if (am == 0)
+            {
+
+                var cancelResult = makervoidMatchedOrder(mro._UserOrder.MarketID, mro._UserOrder.RunnerID, mro._UserOrder.OrderID, reason);
+
+                return cancelResult;
+
+            }
+            else
+            {
+
+
+                var confirmResult = confirmMatchedOrder(mro._UserOrder.MarketID, mro._UserOrder.RunnerID, mro._UserOrder.OrderID, 0, am);
+
+                if (confirmResult)
+                {
+
+                    #region adjustInternalPosition
+                    //int ruLength = ?;
+                    //var position = new decimal[ruLength];
+
+                    //if (mro._UserOrder.BidOrAsk == 0)
+                    //{
+
+                    //    for (int uix = 0; uix < ruLength; uix++)
+                    //    {
+                    //        if (uix != mro._UserOrder.RunnerID)
+                    //        {
+                    //            position[uix] += Math.Round(am, 2);
+                    //        }
+                    //    }
+
+                    //    position[mro._UserOrder.RunnerID] -= Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
+                    //}
+                    //else
+                    //{
+
+                    //    for (int uix = 0; uix < ruLength; uix++)
+                    //    {
+                    //        if (uix != mro._UserOrder.RunnerID)
+                    //        {
+                    //            position[uix] -= Math.Round(am, 2);
+                    //        }
+                    //    }
+
+                    //    position[mro._UserOrder.RunnerID] += Math.Round((mro._MatchedOrder.Price - 1) * am, 2);
+
+                    //}
+                    #endregion
+                }
+
+                return confirmResult;
+            }
+        }
+  
         public bool transferFunds(int to, string reference, int ttype, decimal amountMBTC)
         {
             var userTransfer = new MUserTransfer(Config.ID, to, reference, ttype,amountMBTC);
