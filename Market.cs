@@ -15,7 +15,8 @@ namespace FairlaySampleClient
         public enum SettleType
         {
             BINARY,
-            DECIMAL
+            DECIMAL,
+            DECIMALTOBASE
 
         }
         public enum MarketType
