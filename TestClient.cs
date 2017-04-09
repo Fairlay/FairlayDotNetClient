@@ -407,9 +407,10 @@ namespace FairlaySampleClient
 
 
         //To delete an existing API Account, set PublicRSAKeyXML to "DELETE"  and send the request from the native API Account #0
-        public bool registerAPIAccount(int apiAccount, string PublicRSAKeyXML, bool isReadOnly, bool isTransferOnly, decimal dailyLimitmBTC)
+        //The transferLimit should only be set for TransferOnly API Accounts. If the transferLimit is set to 0, it means that there is no limit.  
+        public bool registerAPIAccount(int apiAccount, string PublicRSAKeyXML, bool isReadOnly, bool isTransferOnly, decimal dailyTransferLimitmBTC=0)
         {
-            string req = string.Format("{0}|{1}|{2}|{3}|{4}",apiAccount,PublicRSAKeyXML, isReadOnly,isTransferOnly,  dailyLimitmBTC.ToString(CultureInfo.InvariantCulture));
+            string req = string.Format("{0}|{1}|{2}|{3}|{4}", apiAccount, PublicRSAKeyXML, isReadOnly, isTransferOnly, dailyTransferLimitmBTC.ToString(CultureInfo.InvariantCulture));
 
 
             var response = makeReq(REQ.REGISTERAPI2,req);
