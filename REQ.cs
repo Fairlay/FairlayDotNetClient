@@ -83,7 +83,7 @@ namespace FairlaySampleClient
         public const int SETFORCENONCE = 44;  
         public const int GETUNMATCHEDORDERS = 25;
         public const int GETMATCHEDORDERS = 27;
-        public const int REGISTERAPI = 23;  
+        public const int REGISTERAPI2 = 123;  
         public const int GETMYBALANCE = 22;
 
         public const int SETREADONLY = 49;

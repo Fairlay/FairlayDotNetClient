@@ -405,6 +405,17 @@ namespace FairlaySampleClient
             return null;
         }
 
+
+        //To delete an existing API Account, set PublicRSAKeyXML to "DELETE"  and send the request from the native API Account #0
+        public bool registerAPIAccount(int apiAccount, string PublicRSAKeyXML, bool isReadOnly, bool isTransferOnly, decimal dailyLimitmBTC)
+        {
+            string req = string.Format("{0}|{1}|{2}|{3}|{4}",apiAccount,PublicRSAKeyXML, isReadOnly,isTransferOnly,  dailyLimitmBTC.ToString(CultureInfo.InvariantCulture));
+
+
+            var response = makeReq(REQ.REGISTERAPI2,req);
+            if (response == "New APIUser Added") return true;
+            return false;
+        }
         //please state a reason for the cancellation if possible, which is forwarded to the other party
         // 0:  not provided
         // 1:  other reason
