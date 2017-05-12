@@ -107,8 +107,9 @@ namespace FairlaySampleClient
         public const int SETCALLBACKIP = 103;
         public const int SETFORCECONFIRM = 105; 
         public const int LATESTSETTLEMENTS1H = 106;
-        public const int SETSCREENNAME = 46;  
-       
+        public const int SETSCREENNAME = 46;
+        public const int SETSETTLEDELEGATES = 107;  
+   
     }
 
 

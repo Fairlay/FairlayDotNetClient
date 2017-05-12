@@ -94,7 +94,23 @@ namespace FairlaySampleClient
 
         public decimal Comm { get; set; }
         public long PrivCreator { get; set; }
-        public string CreatorName { get; set; }
+
+
+        //Determines all allowed Settler for this market and if they are trusted or not. 
+        // Untrusted settlers may settle the market, but have to put in the entire volume as Security deposit for 3 days
+        // In order for a market to be listed as safe on Fairlay.com, the user "1" (Fairlay) has to be put in as trusted settler 
+        // and the user 777889 has also to be put in as settler for faster settlement.
+        // all other settlers have to be untrusted
+        // Any defined settler may determine "settle delegates" who may settle markets in their name, but whose settlement can be overturned.
+        
+        
+        public Dictionary<long, bool> PrivSettler { get; set; }
+
+        //Determines all users, who receive the commission of the market. 
+        // In order to be listed on the Fairlay.com website, the user 1 (Fairlay) has to receive at least 50%  (0.5)
+        public Dictionary<long, decimal> PrivComRecip { get; set; }
+     
+
 
         public DateTime ExcludedCreationTime
         {
@@ -165,7 +181,11 @@ namespace FairlaySampleClient
 
 
 
-
+            PrivSettler = new Dictionary<long, bool>(3);
+            PrivSettler[1] = true;
+            PrivSettler[777889] = false;
+            PrivSettler[creator] = false;
+         
           
             if (inplay)
             {

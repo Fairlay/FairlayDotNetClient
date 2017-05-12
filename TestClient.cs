@@ -757,6 +757,16 @@ namespace FairlaySampleClient
             return false;
         }
 
+        public bool setSettleDelegates(long[] accountIds)
+        {
+
+            var cancelResult = makeReq(REQ.SETSETTLEDELEGATES, "" + JsonConvert.SerializeObject(accountIds));
+            if (cancelResult == null) return false;
+
+            if (cancelResult.Contains("success")) return true;
+            return false;
+        }
+
         #endregion
 
         #region Private
