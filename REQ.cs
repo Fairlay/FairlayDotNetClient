@@ -18,6 +18,7 @@ namespace FairlaySampleClient
     {
         public long Mid;
         public int Runner;
+        public bool Unsettle;
         public int Win;  //The selected Runner either  won (1)  or lost (2)
         public bool Half;  // Needed for example for markets like   Over/Under 2.25   which is Over / Under Markets 2.5  & 2.0     
         public decimal Dec;  // For Decimal Markets
