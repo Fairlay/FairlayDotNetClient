@@ -104,11 +104,11 @@ namespace FairlaySampleClient
         // Any defined settler may determine "settle delegates" who may settle markets in their name, but whose settlement can be overturned.
         
         
-        public Dictionary<long, bool> PrivSettler { get; set; }
+        public Dictionary<long, bool> Settler { get; set; }
 
         //Determines all users, who receive the commission of the market. 
         // In order to be listed on the Fairlay.com website, the user 1 (Fairlay) has to receive at least 50%  (0.5)
-        public Dictionary<long, decimal> PrivComRecip { get; set; }
+        public Dictionary<long, decimal> ComRecip { get; set; }
      
 
 
@@ -166,7 +166,7 @@ namespace FairlaySampleClient
 
        
 
-        public MarketX(MarketType mtype, MarketPeriod mper, string title, string competition, int creator, string description, int category, DateTime closing, DateTime settling, string[] runnerNames, bool inplay=false)
+        public MarketX(MarketType mtype, MarketPeriod mper,  string title, string competition, int creator, string description, int category, DateTime closing, DateTime settling, string[] runnerNames, bool inplay=false ,decimal commission=0.02m)
         {
 
             _Period = mper;
@@ -178,14 +178,22 @@ namespace FairlaySampleClient
             SettlD = settling;
             CatID = category;
             Comp = Util1.RemoveDiacritics(competition);
+            Comm = commission;
 
 
+            Settler = new Dictionary<long, bool>(3);
+            Settler[1] = true;
+            Settler[777889] = false;
+            Settler[creator] = false;
 
-            PrivSettler = new Dictionary<long, bool>(3);
-            PrivSettler[1] = true;
-            PrivSettler[777889] = false;
-            PrivSettler[creator] = false;
-         
+
+            if (commission > 0)
+            {
+                ComRecip = new Dictionary<long, decimal>();
+                ComRecip[1] = 0.5m;
+                ComRecip[creator] = 0.5m;
+            }
+
           
             if (inplay)
             {
