@@ -187,6 +187,16 @@ namespace FairlaySampleClient
             var statement = JsonConvert.DeserializeObject<List<MUserStatement>>(answer);
             return statement;
         }
+
+        public List<MUserTransfer> getTransfers(long sinceDate)
+        {
+            var answer = makeReq(REQ.GETTRANSFERS, sinceDate.ToString());
+
+            if (answer == null) return null;
+
+            var statement = JsonConvert.DeserializeObject<List<MUserTransfer>>(answer);
+            return statement;
+        }
         //provide Dates in UTC
      
         public List<ReturnUOrder> getLongUOrderList(long time)
