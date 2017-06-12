@@ -418,17 +418,7 @@ namespace FairlaySampleClient
         }
 
 
-        //To delete an existing API Account, set PublicRSAKeyXML to "DELETE"  and send the request from the native API Account #0
-        //The transferLimit should only be set for TransferOnly API Accounts. If the transferLimit is set to 0, it means that there is no limit.  
-        public bool registerAPIAccount(int apiAccount, string PublicRSAKeyXML, bool isReadOnly, bool isTransferOnly, decimal dailyTransferLimitmBTC=0)
-        {
-            string req = string.Format("{0}|{1}|{2}|{3}|{4}", apiAccount, PublicRSAKeyXML, isReadOnly, isTransferOnly, dailyTransferLimitmBTC.ToString(CultureInfo.InvariantCulture));
-
-
-            var response = makeReq(REQ.REGISTERAPI2,req);
-            if (response == "New APIUser Added") return true;
-            return false;
-        }
+    
         //please state a reason for the cancellation if possible, which is forwarded to the other party
         // 0:  not provided
         // 1:  other reason
@@ -489,6 +479,49 @@ namespace FairlaySampleClient
 
         }
 
+#endregion
+        #region LMSR
+       
+        // see the LMSR object for documentation
+        //to disable a MM, set Enabled to false;
+        public LMSR setLMSR(LMSR lmsr)
+        {
+            if (lmsr == null) return null;
+            var answer = makeReq(REQ.SETMARKETMAKER1, JsonConvert.SerializeObject(lmsr));
+
+            if (answer == null || answer.StartsWith("XError")) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<LMSR>(answer);
+                 
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+          
+        }
+
+       
+        public List<LMSR> getAllLMSRs()
+        {
+            var answer = makeReq(REQ.GETMARKETMAKER, "-1");
+            if (answer == null || answer.StartsWith("XError")) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<List<LMSR>>(answer);
+
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+
+        }
         #endregion
 
         #region MarketRelatedRequests
@@ -532,6 +565,18 @@ namespace FairlaySampleClient
         #endregion
 
         #region AccountRelatedRequests
+
+        //To delete an existing API Account, set PublicRSAKeyXML to "DELETE"  and send the request from the native API Account #0
+        //The transferLimit should only be set for TransferOnly API Accounts. If the transferLimit is set to 0, it means that there is no limit.  
+        public bool registerAPIAccount(int apiAccount, string PublicRSAKeyXML, bool isReadOnly, bool isTransferOnly, decimal dailyTransferLimitmBTC = 0)
+        {
+            string req = string.Format("{0}|{1}|{2}|{3}|{4}", apiAccount, PublicRSAKeyXML, isReadOnly, isTransferOnly, dailyTransferLimitmBTC.ToString(CultureInfo.InvariantCulture));
+
+
+            var response = makeReq(REQ.REGISTERAPI2, req);
+            if (response == "New APIUser Added") return true;
+            return false;
+        }
         public bool setPublicUserName(string name)
         {
 
