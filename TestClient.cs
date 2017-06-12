@@ -188,14 +188,16 @@ namespace FairlaySampleClient
             return statement;
         }
 
+        // Provide the UTC time in Ticks.
         public List<MUserTransfer> getTransfers(long sinceDate)
         {
+           
             var answer = makeReq(REQ.GETTRANSFERS, sinceDate.ToString());
 
             if (answer == null) return null;
 
-            var statement = JsonConvert.DeserializeObject<List<MUserTransfer>>(answer);
-            return statement;
+            var transfers = JsonConvert.DeserializeObject<List<MUserTransfer>>(answer);
+            return transfers;
         }
         //provide Dates in UTC
      
