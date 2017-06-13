@@ -161,8 +161,9 @@ If no cool off is required, set coolOffSeconds to 1.
 
         public const int AMENDDESCRIPTION = 55; 
         public const int GETMARKETMAKER = 70; 
-        public const int SETMARKETMAKER1 = 73; 
-     
+        public const int SETMARKETMAKER1 = 73;
+
+        public const int GETAPIACCOUNTS = 108; // retrieves all registered API accounts  as Dictionary<int, MAPIUser>. No parameter required.
    
     }
 
