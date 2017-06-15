@@ -362,10 +362,10 @@ namespace FairlaySampleClient
             else
             {
                 List<long> markets_to_cancel = new List<long>();
-                for (int i = 0; i < coL.Length; i++)
+                for (int i = 0; i < answL.Length; i++)
                 {
-                    var co = coL[i];
-                    string answ = answL[i];
+                    var co = answL[i];
+                    string answ = co.Res;
                     if (answ.Contains("YError:Market Closed") || answ == "Order cancelled")
                     {
                         //order cancelled
@@ -397,7 +397,7 @@ namespace FairlaySampleClient
             return true;
         }
 
-        public string[] sendChangeOrders(REQChangeOrder[] coL)
+        public REQChangeOrder[] sendChangeOrders(REQChangeOrder[] coL)
         {
            
             string send = JsonConvert.SerializeObject(coL);
@@ -408,7 +408,7 @@ namespace FairlaySampleClient
 
             try
             {
-                return JsonConvert.DeserializeObject<string[]>(ret);
+                return JsonConvert.DeserializeObject<REQChangeOrder[]>(ret);
             }
             catch (Exception)
             {
