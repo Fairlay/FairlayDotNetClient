@@ -401,7 +401,7 @@ namespace FairlaySampleClient
         {
            
             string send = JsonConvert.SerializeObject(coL);
-            string ret =makeReq(REQ.CHANGEORDERSMAKER,send);
+            string ret =makeReq(REQ.CHANGEORDERSV2,send);
             //  Utilities.append(send + " ---  \r\n --- " + ret);
             if (ret == null) return null;
 
