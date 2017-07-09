@@ -784,9 +784,10 @@ namespace FairlaySampleClient
             }
         }
   
-        public bool transferFunds(int to, string reference, int ttype, decimal amountMBTC)
+        // transfers funds to another user. By default mBTC (currency ID 0 ) are transfered
+        public bool transferFunds(int to, string reference, int ttype, decimal amount, int currency=0)
         {
-            var userTransfer = new MUserTransfer(Config.ID, to, reference, ttype,amountMBTC);
+            var userTransfer = new MUserTransfer(Config.ID, to, reference, ttype,amount, currency);
             var answer = makeReq(REQ.TRANSFERFUNDS, JsonConvert.SerializeObject(userTransfer));
 
             if (answer == null) return false;

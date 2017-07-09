@@ -86,7 +86,7 @@ namespace FairlaySampleClient
 
     public class MUserTransfer 
     {
-        public MUserTransfer(int from, int to, string descr, int ttype, decimal am)
+        public MUserTransfer(int from, int to, string descr, int ttype, decimal am, int cur)
         {
             ID2 = (long)(Util1.getUTCNow - new DateTime(2015, 1, 1)).TotalMilliseconds;
             FromU = from;
@@ -94,6 +94,7 @@ namespace FairlaySampleClient
             Descr = descr;
             TType = ttype;
             Amount = am;
+            Cur = cur;
         }
 
         public long ID2;
