@@ -97,6 +97,8 @@ namespace FairlaySampleClient
         }
 
         public long ID2;
+        //Currency ID to send /  0 is mBTC /1 is Ether  /2 is Litecoin  /3 Dash
+        public int Cur;    
         public int FromU;
         public int ToU;
         public string Descr;

@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace FairlaySampleClient
 {
+
+    public class Currency
+    {
+        public int ID;
+        public string Name;
+        public string Symbol;
+        public string ColdWalletAddress;
+        public decimal TotalBalance;
+        //User Account which maintaines the Currency
+        public long Maintainer;
+    }
+
     public class ChangeTimeReq
     {
         public long MID;
@@ -179,7 +191,12 @@ If no cool off is required, set coolOffSeconds to 1.
 
         public const int GETAPIACCOUNTS = 108; // retrieves all registered API accounts  as Dictionary<int, MAPIUser>. No parameter required.
         public const int CHANGEORDERSV2 = 109;  //long MarketID|int  RunnerID|long OrderID| decimal Price| decimal amount
-   
+
+
+        public const int GETMYBALANCEV2 = 122; //-
+        public const int GETCURRENCIES = 123; //-
+        public const int ADDORCHANGECURRENCY = 124; //-
+
     }
 
 

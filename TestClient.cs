@@ -79,7 +79,35 @@ namespace FairlaySampleClient
 
         }
 
+
+        #region PublicPostRequests
+
+        public bool addorchangeCurrency(Currency cur)
+        {
+            var response = makeReq(REQ.ADDORCHANGECURRENCY, JsonConvert.SerializeObject(cur));
+            if (response == null || !response.StartsWith("Currency ")) return false;
+            return true;
+
+
+        }
+
+        #endregion
         #region PublicGetRequests
+
+        public Dictionary<int, Currency> getCurrencies()
+        {
+            var response = makeReq(REQ.GETCURRENCIES, "");
+            if (response == null) return null;
+
+            try
+            {
+                return JsonConvert.DeserializeObject<Dictionary<int, Currency>>(response);
+            }
+            catch (Exception) { }
+            return null;
+        }
+
+
         public bool VerifyProofOfReserves(decimal userBalance, string mustContain, string publicTopHash, decimal sumFunds)
         {
 
@@ -163,14 +191,18 @@ namespace FairlaySampleClient
         #endregion
 
         #region PrivateGetRequests
-        public ReturnBalance getBalance()
+
+
+        //Returns the Balances of all Currencies /0 is Bitcoin /1 Ethereum /2 Litecoin,  Get a full list by querying all available Currencies via GETCURRENCIES
+
+        public Dictionary<int, ReturnBalance> getBalance()
         {
-            var resp = makeReq(REQ.GETMYBALANCE, "");
+            var resp = makeReq(REQ.GETMYBALANCEV2, "");
             if (resp == null) return null;
 
             try
             {
-                return JsonConvert.DeserializeObject<ReturnBalance>(resp);
+                return JsonConvert.DeserializeObject<Dictionary<int,ReturnBalance>>(resp);
             }
             catch (Exception) { }
             return null;
@@ -525,6 +557,9 @@ namespace FairlaySampleClient
         #endregion
 
         #region MarketRelatedRequests
+
+
+    
 
         public long createMarket(MarketX m)
         {

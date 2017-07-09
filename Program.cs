@@ -46,8 +46,8 @@ namespace FairlaySampleClient
             }
             else return;
 
-            var xf = tc.getBalance();
-            Console.WriteLine("\r\nYour balance is: " + JsonConvert.SerializeObject(xf));
+            var balances = tc.getBalance();
+            Console.WriteLine("\r\nYour balances are: " + JsonConvert.SerializeObject(balances));
             
 
             //Do a proof of reserve
