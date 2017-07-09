@@ -16,8 +16,7 @@ namespace FairlaySampleClient
             Console.WriteLine("Your private and public key were saved in the config.txt file:\r\n" + tc.getPublicKey());
             bool suc = tc.init(0);
 
-
-
+    
             var _GetAPI = new GetAPI("\"Cat\":12 ,\"TypeOr\":[0],\"PeriodOr\":[1], \"OnlyActive\":true");
 
             // call grab every 10 seconds to update your markets.

@@ -195,9 +195,9 @@ namespace FairlaySampleClient
 
         //Returns the Balances of all Currencies /0 is Bitcoin /1 Ethereum /2 Litecoin,  Get a full list by querying all available Currencies via GETCURRENCIES
 
-        public Dictionary<int, ReturnBalance> getBalance()
+        public Dictionary<int, ReturnBalance> getBalances(int currencyID=-1)
         {
-            var resp = makeReq(REQ.GETMYBALANCEV2, "");
+            var resp = makeReq(REQ.GETMYBALANCEV2, currencyID.ToString());
             if (resp == null) return null;
 
             try
