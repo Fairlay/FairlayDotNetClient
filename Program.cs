@@ -64,7 +64,7 @@ namespace FairlaySampleClient
 
             if(yourusernameoremail !=null)  tc.setPublicUserName(yourusernameoremail);
            
-            bool verifiedProof = tc.VerifyProofOfReserves(xf.PrivReservedFunds, yourusernameoremail, publictophash, sumFunds);
+            bool verifiedProof = tc.VerifyProofOfReserves(balances[0].PrivReservedFunds, yourusernameoremail, publictophash, sumFunds);
 
             Console.WriteLine("\r\nIs your balance verified?  " + verifiedProof);
         
