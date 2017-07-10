@@ -194,7 +194,7 @@ If no cool off is required, set coolOffSeconds to 1.
 
 
         public const int GETMYBALANCEV2 = 122; //-
-        public const int GETCURRENCIES = 123; //-
+        public const int GETCURRENCIES = 125; //-
         public const int ADDORCHANGECURRENCY = 124; //-
 
     }

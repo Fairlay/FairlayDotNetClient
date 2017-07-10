@@ -45,7 +45,7 @@ namespace FairlaySampleClient
             }
             else return;
 
-            var balances = tc.getBalance();
+            var balances = tc.getBalances();
             Console.WriteLine("\r\nYour balances are: " + JsonConvert.SerializeObject(balances));
             
 
