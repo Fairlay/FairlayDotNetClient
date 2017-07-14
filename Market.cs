@@ -63,7 +63,8 @@ namespace FairlaySampleClient
         {
             BINARY,
             DECIMAL,
-            DECIMALTOBASE
+            DECIMALTOBASE,
+            EXCHANGE
 
         }
         public enum MarketType
@@ -156,8 +157,8 @@ namespace FairlaySampleClient
         //Determines all users, who receive the commission of the market. 
         // In order to be listed on the Fairlay.com website, the user 1 (Fairlay) has to receive at least 50%  (0.5)
         public Dictionary<long, decimal> ComRecip { get; set; }
-     
 
+        public int Cur;
 
         public DateTime ExcludedCreationTime
         {
