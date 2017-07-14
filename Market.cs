@@ -160,6 +160,11 @@ namespace FairlaySampleClient
 
         public int Cur;
 
+        public decimal MinVal { get; set; }
+        public decimal MaxVal { get; set; }
+
+
+
         public DateTime ExcludedCreationTime
         {
             get
