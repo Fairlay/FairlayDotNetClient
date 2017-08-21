@@ -1,0 +1,37 @@
+<Project>
+
+	<PropertyGroup>
+		<Company>Fairlay</Company>
+		<Copyright>Copyright (c) Fairlay 2017</Copyright>
+		<RepositoryUrl>https://github.com/Fairlay/FairlayDotNetClient</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://fairlay.com/</PackageProjectUrl>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Tests\**" />
+		<EmbeddedResource Remove="Tests\**" />
+		<None Remove="Tests\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Mocks\**" />
+		<EmbeddedResource Remove="Mocks\**" />
+		<None Remove="Mocks\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="*.v3.ncrunchproject" />
+	</ItemGroup>
+
+</Project>
