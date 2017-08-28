@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using FairlayDotNetClient.Private;
 using NUnit.Framework;
 
-namespace FairlayDotNetClient.Tests
+namespace FairlayDotNetClient.Tests.Private
 {
 	public class CryptoUtilsTests
 	{

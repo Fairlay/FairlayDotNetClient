@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FairlayDotNetClient
+namespace FairlayDotNetClient.Private
 {
 	public static class CryptoUtils
 	{

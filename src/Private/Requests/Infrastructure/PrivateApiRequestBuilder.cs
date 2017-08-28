@@ -1,4 +1,4 @@
-﻿namespace FairlayDotNetClient.Private.Requests
+﻿namespace FairlayDotNetClient.Private.Requests.Infrastructure
 {
 	public interface PrivateApiRequestBuilder
 	{

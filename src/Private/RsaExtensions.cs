@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Xml;
 
-namespace FairlayDotNetClient
+namespace FairlayDotNetClient.Private
 {
 	public static class RsaExtensions
 	{

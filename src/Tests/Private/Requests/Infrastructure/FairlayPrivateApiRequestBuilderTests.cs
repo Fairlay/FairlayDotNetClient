@@ -1,7 +1,8 @@
 ﻿using FairlayDotNetClient.Private.Requests;
+using FairlayDotNetClient.Private.Requests.Infrastructure;
 using NUnit.Framework;
 
-namespace FairlayDotNetClient.Tests.Private.Requests
+namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 {
 	public class FairlayPrivateApiRequestBuilderTests
 	{

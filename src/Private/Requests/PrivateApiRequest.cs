@@ -9,8 +9,6 @@
 			RequestBody = requestBody;
 		}
 
-		//public string Signature { get; set; }
-		//public long Nonce { get; set; }
 		public long UserId { get; }
 		public string RequestHeader { get; }
 		public string RequestBody { get; }
