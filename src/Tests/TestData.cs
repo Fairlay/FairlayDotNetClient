@@ -13,5 +13,12 @@
 			"wqegWwKmBNQc+GxM/OY0ybTQBkuwX3IMo80KUgHj7puOgfw==</InverseQ><D>oAyvAZabPxcVDFPK30bTd/Vm" +
 			"FTCuNaWekhvlONiaLvWWDlGHdYvwNOnXoGY12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGS" +
 			"eFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
+
+		public const long UserId = 1007206;
+		public const int NativeApiAccountId = 0;
+		public const int RegisteredApiAccountId = 2;
+		public const string NumericRequestHeader = "25";
+		public const string NamedRequestHeader = nameof(NamedRequestHeader);
+		public const string RequestBody = nameof(RequestBody);
 	}
 }

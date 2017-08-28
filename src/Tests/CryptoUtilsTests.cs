@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
-using FairlayDotNetClient;
 
 namespace FairlayDotNetClient.Tests
 {
