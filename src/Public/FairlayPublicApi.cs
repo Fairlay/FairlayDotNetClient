@@ -9,15 +9,9 @@ namespace FairlayDotNetClient.Public
 	//ncrunch: no coverage start
 	public class FairlayPublicApi : PublicApi
 	{
-		protected override Task<string> GetHttpResponse(string method, string jsonParameters,
-			DateTime softChangedAfter)
-		{
-			string url = "http://31.172.83.181:8080/free" + new Random().Next(1, 10) + "/" + method + "/";
-			if (method != Time)
-				url += "{" + jsonParameters + ", \"ToID\":10000,\"SoftChangedAfter\":" +
-					JsonConvert.SerializeObject(softChangedAfter) + "}";
-			return GetHttpResponse(url);
-		}
+		protected override Task<string> GetHttpResponse(string method, string parameters)
+			=> GetHttpResponse("http://31.172.83.181:8080/free" + new Random().Next(1, 10) + "/" +
+				method + "/"+parameters);
 
 		private static async Task<string> GetHttpResponse(string url)
 			=> await (await new HttpClient(AutoDecompression).GetAsync(url)).Content.ReadAsStringAsync();

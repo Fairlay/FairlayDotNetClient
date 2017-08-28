@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -25,5 +26,8 @@ namespace FairlayDotNetClient
 					stringBuilder.Append(c);
 			return stringBuilder.ToString();
 		}
+
+		public static string ToText<T>(this IEnumerable<T> texts, string separator = ", ")
+			=> texts == null ? "" : string.Join(separator, texts);
 	}
 }
