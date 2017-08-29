@@ -1,4 +1,7 @@
-﻿namespace FairlayDotNetClient.Tests
+﻿using System.Security.Cryptography;
+using FairlayDotNetClient.Private;
+
+namespace FairlayDotNetClient.Tests
 {
 	public static class TestData
 	{
@@ -14,11 +17,15 @@
 			"FTCuNaWekhvlONiaLvWWDlGHdYvwNOnXoGY12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGS" +
 			"eFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
 
+		public static readonly RSAParameters PrivateRsaParameters =
+			RsaParametersExtensions.CreateFromXmlString(PrivateRsaXml);
+
 		public const long UserId = 1007206;
 		public const int NativeApiAccountId = 0;
 		public const int RegisteredApiAccountId = 2;
 		public const string NumericRequestHeader = "25";
 		public const string NamedRequestHeader = nameof(NamedRequestHeader);
 		public const string RequestBody = nameof(RequestBody);
+		public const long Nonce = 636395926873808918;
 	}
 }
