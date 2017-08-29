@@ -6,11 +6,15 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 {
 	public class FairlayPrivateApiRequestBuilderTests
 	{
+		[SetUp]
+		public void Initilize() => builder = new FairlayPrivateApiRequestBuilder();
+
+		private FairlayPrivateApiRequestBuilder builder;
+
 		[Test]
 		public void BuildWithNativeAccountIdAndNumericHeader()
 		{
-			var builder = new FairlayPrivateApiRequestBuilder(TestData.UserId,
-				TestData.NativeApiAccountId);
+			builder.SetApiUser(TestData.UserId, TestData.NativeApiAccountId);
 			var request = builder.BuildRequest(TestData.NumericRequestHeader);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			Assert.That(request.RequestHeader, Is.EqualTo(TestData.NumericRequestHeader));
@@ -23,8 +27,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void BuildWithRegisteredAccountIdAndNumericHeader()
 		{
-			var builder = new FairlayPrivateApiRequestBuilder(TestData.UserId,
-				TestData.RegisteredApiAccountId);
+			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
 			var request = builder.BuildRequest(TestData.NumericRequestHeader);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			// https://github.com/Fairlay/PrivateApiDocumentation#use-another-api-account
@@ -35,8 +38,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void BuildWithNativeAccountIdAndNamedHeader()
 		{
-			var builder = new FairlayPrivateApiRequestBuilder(TestData.UserId,
-				TestData.NativeApiAccountId);
+			builder.SetApiUser(TestData.UserId, TestData.NativeApiAccountId);
 			var request = builder.BuildRequest(TestData.NamedRequestHeader);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			Assert.That(request.RequestHeader, Is.EqualTo(TestData.NamedRequestHeader));
@@ -46,8 +48,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void BuildWithRegisteredAccountIdAndNamedHeader()
 		{
-			var builder = new FairlayPrivateApiRequestBuilder(TestData.UserId,
-				TestData.RegisteredApiAccountId);
+			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
 			var request = builder.BuildRequest(TestData.NamedRequestHeader);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			Assert.That(request.RequestHeader, Is.EqualTo(TestData.NamedRequestHeader));
@@ -57,8 +58,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void BuildWithRequestBody()
 		{
-			var builder = new FairlayPrivateApiRequestBuilder(TestData.UserId,
-				TestData.RegisteredApiAccountId);
+			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
 			var request = builder.BuildRequest(TestData.NumericRequestHeader, TestData.RequestBody);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			Assert.That(request.RequestBody, Is.EqualTo(TestData.RequestBody));

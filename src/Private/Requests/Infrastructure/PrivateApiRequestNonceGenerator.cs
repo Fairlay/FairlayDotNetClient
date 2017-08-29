@@ -1,6 +1,6 @@
 ﻿namespace FairlayDotNetClient.Private.Requests.Infrastructure
 {
-	interface PrivateApiRequestNonceGenerator
+	public interface PrivateApiRequestNonceGenerator
 	{
 		long GenerateNonce();
 	}
