@@ -10,8 +10,8 @@ namespace FairlayDotNetClient.Private.Infrastructure
 		/// </summary>
 		public static string FormatIntoServerMessage(this SignedPrivateApiRequest request)
 			=> $"{Convert.ToBase64String(request.Signature)}|{request.Nonce}|{request.UserId}|" +
-			$"{request.Header}|{request.Body}{EndOfDataTag}";
+			$"{request.Header}|{request.Body}{EndOfDataToken}";
 
-		public const string EndOfDataTag = "<\"ENDOFDATA\">";
+		public const string EndOfDataToken = "<\"ENDOFDATA\">";
 	}
 }
