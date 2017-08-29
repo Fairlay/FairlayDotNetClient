@@ -20,8 +20,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void TestSignRequest()
 		{
-			var request = new PrivateApiRequest(TestData.UserId, TestData.NumericRequestHeader,
-				TestData.RequestBody);
+			var request = TestData.Request;
 			var signedRequest = signer.SignRequest(request, TestData.Nonce);
 			Assert.That(signedRequest.UserId, Is.EqualTo(request.UserId));
 			Assert.That(signedRequest.Header, Is.EqualTo(request.Header));

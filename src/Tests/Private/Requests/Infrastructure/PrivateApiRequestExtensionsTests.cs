@@ -9,8 +9,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void TestFormatIntoSignableString()
 		{
-			var request = new PrivateApiRequest(TestData.UserId, TestData.NumericRequestHeader,
-				TestData.RequestBody);
+			var request = TestData.Request;
 			string expectedFormat =
 				$"{TestData.Nonce}|{request.UserId}|{request.Header}|{request.Body}";
 			Assert.That(request.FormatIntoSignableString(TestData.Nonce), Is.EqualTo(expectedFormat));
