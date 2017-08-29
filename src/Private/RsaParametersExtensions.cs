@@ -4,12 +4,9 @@ using System.Xml;
 
 namespace FairlayDotNetClient.Private
 {
-	public static class RsaExtensions
+	public static class RsaParametersExtensions
 	{
-		/// <summary>
-		/// Build-in FromXmlString does not work (PlatformNotSupportedException)
-		/// </summary>
-		public static void ImportFromXmlString(this RSA rsa, string xmlString)
+		public static RSAParameters CreateFromXmlString(string xmlString)
 		{
 			var parameters = new RSAParameters();
 			var xmlDoc = new XmlDocument();
@@ -19,7 +16,7 @@ namespace FairlayDotNetClient.Private
 					parameters = ImportRsaParameterFromXmlNode(node, parameters);
 			else
 				throw new CryptographicException("Invalid XML RSA key.");
-			rsa.ImportParameters(parameters);
+			return parameters;
 		}
 
 		// ReSharper disable once MethodTooLong

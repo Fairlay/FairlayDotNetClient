@@ -1,4 +1,9 @@
-﻿namespace FairlayDotNetClient.Tests
+﻿using System;
+using System.Security.Cryptography;
+using FairlayDotNetClient.Private;
+using FairlayDotNetClient.Private.Requests;
+
+namespace FairlayDotNetClient.Tests
 {
 	public static class TestData
 	{
@@ -14,11 +19,26 @@
 			"FTCuNaWekhvlONiaLvWWDlGHdYvwNOnXoGY12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGS" +
 			"eFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
 
+		public static readonly RSAParameters PrivateRsaParameters =
+			RsaParametersExtensions.CreateFromXmlString(PrivateRsaXml);
+
+		public static readonly PrivateApiRequest Request = new PrivateApiRequest(UserId,
+			NumericRequestHeader, RequestBody);
+
+		private static readonly byte[] SignedRequestSignature =
+			Convert.FromBase64String("k6kkNa2eux2/fIun+CaCmSQGzdwbuA20PGuePP6rV425T7UF8bywN/GrA7cIyE" +
+				"+8azVe3HJEx/DHDmCOD5X4skZZLeDjgpWvf+k3OSJmKz4KWU/fAG9x8bXMzbsBBJrA/kQADQMYlasKwKxdoJs" +
+				"7mxlsKrf9TxD1ZmSsCWjhgz8=");
+
+		public static readonly SignedPrivateApiRequest SignedRequest =
+			new SignedPrivateApiRequest(Request, SignedRequestSignature, Nonce);
+
 		public const long UserId = 1007206;
 		public const int NativeApiAccountId = 0;
 		public const int RegisteredApiAccountId = 2;
 		public const string NumericRequestHeader = "25";
 		public const string NamedRequestHeader = nameof(NamedRequestHeader);
 		public const string RequestBody = nameof(RequestBody);
+		public const long Nonce = 636395926873808918;
 	}
 }

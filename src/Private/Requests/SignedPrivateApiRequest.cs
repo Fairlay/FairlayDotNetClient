@@ -2,8 +2,8 @@
 {
 	public class SignedPrivateApiRequest : PrivateApiRequest
 	{
-		public SignedPrivateApiRequest(PrivateApiRequest apiRequest, byte[] signature, long nonce)
-			: base(apiRequest.UserId, apiRequest.RequestHeader, apiRequest.RequestBody)
+		public SignedPrivateApiRequest(PrivateApiRequest request, byte[] signature, long nonce)
+			: base(request.UserId, request.Header, request.Body)
 		{
 			Signature = signature;
 			Nonce = nonce;

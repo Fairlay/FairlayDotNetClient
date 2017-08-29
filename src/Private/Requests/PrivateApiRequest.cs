@@ -2,15 +2,15 @@
 {
 	public class PrivateApiRequest
 	{
-		public PrivateApiRequest(long userId, string requestHeader, string requestBody)
+		public PrivateApiRequest(long userId, string header, string body)
 		{
 			UserId = userId;
-			RequestHeader = requestHeader;
-			RequestBody = requestBody;
+			Header = header;
+			Body = body;
 		}
 
 		public long UserId { get; }
-		public string RequestHeader { get; }
-		public string RequestBody { get; }
+		public string Header { get; }
+		public string Body { get; }
 	}
 }

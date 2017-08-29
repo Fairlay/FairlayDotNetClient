@@ -8,11 +8,12 @@ namespace FairlayDotNetClient.Tests.Private
 	public class RsaExtensionsTests
 	{
 		[Test]
-		public void EncryptAndDecryptDataWithImportedRsaKey()
+		public void EncryptAndDecryptDataWithImportedRsaParameters()
 		{
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportFromXmlString(TestData.PrivateRsaXml);
+				var rsaParameters = RsaParametersExtensions.CreateFromXmlString(TestData.PrivateRsaXml);
+				rsa.ImportParameters(rsaParameters);
 				var originalData = Encoding.UTF8.GetBytes("Hello World");
 				var encryptedData = rsa.Encrypt(originalData, RSAEncryptionPadding.Pkcs1);
 				var decryptedData = rsa.Decrypt(encryptedData, RSAEncryptionPadding.Pkcs1);
@@ -24,8 +25,7 @@ namespace FairlayDotNetClient.Tests.Private
 		public void XmlWithoutRSAKeyValueThrowsException()
 		{
 			const string InvalidXml = "<Banana>Hello World</Banana>";
-			using (var rsa = RSA.Create())
-				Assert.That(() => rsa.ImportFromXmlString(InvalidXml),
+				Assert.That(() => RsaParametersExtensions.CreateFromXmlString(InvalidXml),
 					Throws.TypeOf<CryptographicException>());
 		}
 	}
