@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="hello">Hello World, Click Me!</string>
-  <string name="app_name">AndroidSample</string>
+	<string name="select_category">Select market category</string>
+  <string name="click_markets">Click to get markets</string>
+	<string name="click_balance">Click to get balance (of TestAccount)</string>
+  <string name="app_name">Fairlay Android Sample</string>
 </resources>
