@@ -1,5 +1,4 @@
-﻿using FairlayDotNetClient.Private.Requests;
-using FairlayDotNetClient.Private.Requests.Infrastructure;
+﻿using FairlayDotNetClient.Private.Requests.Infrastructure;
 using NUnit.Framework;
 
 namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
@@ -9,10 +8,11 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void TestFormatIntoSignableString()
 		{
-			var request = TestData.Request;
+			var request = TestData.ApiRequest;
 			string expectedFormat =
-				$"{TestData.Nonce}|{request.UserId}|{request.Header}|{request.Body}";
-			Assert.That(request.FormatIntoSignableString(TestData.Nonce), Is.EqualTo(expectedFormat));
+				$"{TestData.RequestNonce}|{request.UserId}|{request.Header}|{request.Body}";
+			Assert.That(request.FormatIntoSignableString(TestData.RequestNonce),
+				Is.EqualTo(expectedFormat));
 		}
 	}
 }

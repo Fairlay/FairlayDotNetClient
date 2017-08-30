@@ -8,7 +8,7 @@ namespace FairlayDotNetClient.Private.Infrastructure
 		/// <summary>
 		/// https://github.com/Fairlay/FairlayDotNetClient/wiki/Private-API#fairlay-private-api-documentation-v0
 		/// </summary>
-		public static string FormatIntoServerMessage(this SignedPrivateApiRequest request)
+		public static string FormatIntoApiRequestMessage(this SignedPrivateApiRequest request)
 			=> $"{Convert.ToBase64String(request.Signature)}|{request.Nonce}|{request.UserId}|" +
 			$"{request.Header}|{request.Body}{EndOfDataToken}";
 

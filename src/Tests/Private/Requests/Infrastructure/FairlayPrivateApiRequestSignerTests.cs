@@ -12,7 +12,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		public void Initilize()
 		{
 			signer = new FairlayPrivateApiRequestSigner();
-			signer.SetRsaParameters(TestData.PrivateRsaParameters);
+			signer.SetRsaParameters(TestData.ClientPrivateRsaParameters);
 		}
 
 		private FairlayPrivateApiRequestSigner signer;
@@ -20,12 +20,12 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		[Test]
 		public void TestSignRequest()
 		{
-			var request = TestData.Request;
-			var signedRequest = signer.SignRequest(request, TestData.Nonce);
+			var request = TestData.ApiRequest;
+			var signedRequest = signer.SignRequest(request, TestData.RequestNonce);
 			Assert.That(signedRequest.UserId, Is.EqualTo(request.UserId));
 			Assert.That(signedRequest.Header, Is.EqualTo(request.Header));
 			Assert.That(signedRequest.Body, Is.EqualTo(request.Body));
-			Assert.That(signedRequest.Nonce, Is.EqualTo(TestData.Nonce));
+			Assert.That(signedRequest.Nonce, Is.EqualTo(TestData.RequestNonce));
 			AssertSignatureIsValide(request, signedRequest);
 		}
 
@@ -34,8 +34,8 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		{
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportParameters(TestData.PrivateRsaParameters);
-				string signableString = request.FormatIntoSignableString(TestData.Nonce);
+				rsa.ImportParameters(TestData.ClientPrivateRsaParameters);
+				string signableString = request.FormatIntoSignableString(TestData.RequestNonce);
 				var signableStringData = Encoding.UTF8.GetBytes(signableString);
 				bool isValidSignature = rsa.VerifyData(signableStringData, signedRequest.Signature,
 					HashAlgorithmName.SHA512, RSASignaturePadding.Pkcs1);

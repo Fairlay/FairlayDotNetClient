@@ -15,7 +15,7 @@ namespace FairlayDotNetClient.Private
 				foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
 					parameters = ImportRsaParameterFromXmlNode(node, parameters);
 			else
-				throw new CryptographicException("Invalid XML RSA key.");
+				throw new CryptographicException("Invalid XML RSA key");
 			return parameters;
 		}
 

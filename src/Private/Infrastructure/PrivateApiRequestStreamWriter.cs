@@ -11,11 +11,11 @@ namespace FairlayDotNetClient.Private.Infrastructure
 
 		private readonly Stream requestStream;
 
-		public Task Write(SignedPrivateApiRequest request)
+		public async Task WriteRequest(SignedPrivateApiRequest request)
 		{
-			string serverMessage = request.FormatIntoServerMessage();
-			var serverMessageData = Encoding.UTF8.GetBytes(serverMessage);
-			return requestStream.WriteAsync(serverMessageData, 0, serverMessageData.Length);
+			string apiRequestMessage = request.FormatIntoApiRequestMessage();
+			using (var streamWriter = new StreamWriter(requestStream, Encoding.UTF8, 1024, true))
+				await streamWriter.WriteAsync(apiRequestMessage);
 		}
 	}
 }

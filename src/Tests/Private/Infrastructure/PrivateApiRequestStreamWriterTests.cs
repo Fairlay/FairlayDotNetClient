@@ -9,17 +9,17 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 	public class PrivateApiRequestStreamWriterTests
 	{
 		[Test]
-		public async Task TestWriteRequest()
+		public async Task WriteRequestIntoStream()
 		{
 			using (var requestStream = new MemoryStream())
 			using (var streamReader = new StreamReader(requestStream, Encoding.UTF8))
 			{
 				var requestWriter = new PrivateApiRequestStreamWriter(requestStream);
-				var request = TestData.SignedRequest;
-				await requestWriter.Write(request);
+				var request = TestData.SignedApiRequest;
+				await requestWriter.WriteRequest(request);
 				requestStream.Seek(0, SeekOrigin.Begin);
 				string writtenRequest = streamReader.ReadToEnd();
-				Assert.That(writtenRequest, Is.EqualTo(request.FormatIntoServerMessage()));
+				Assert.That(writtenRequest, Is.EqualTo(request.FormatIntoApiRequestMessage()));
 			}
 		}
 	}

@@ -12,7 +12,7 @@ namespace FairlayDotNetClient.Tests.Private
 		{
 			using (var rsa = RSA.Create())
 			{
-				var rsaParameters = RsaParametersExtensions.CreateFromXmlString(TestData.PrivateRsaXml);
+				var rsaParameters = RsaParametersExtensions.CreateFromXmlString(TestData.ClientPrivateRsaXml);
 				rsa.ImportParameters(rsaParameters);
 				var originalData = Encoding.UTF8.GetBytes("Hello World");
 				var encryptedData = rsa.Encrypt(originalData, RSAEncryptionPadding.Pkcs1);

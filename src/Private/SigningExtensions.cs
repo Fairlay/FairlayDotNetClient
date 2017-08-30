@@ -3,7 +3,7 @@ using System.Text;
 
 namespace FairlayDotNetClient.Private
 {
-	public static class SigningUtilities
+	public static class SigningExtensions
 	{
 		public static byte[] SignStringUsingSha512(string content, RSAParameters rsaParameters)
 		{
