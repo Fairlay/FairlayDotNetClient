@@ -59,8 +59,9 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		public void BuildWithRequestBody()
 		{
 			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
-			var request = builder.BuildRequest(TestData.NumericRequestHeader, TestData.RequestBody);
+			var request = builder.BuildRequest(TestData.NamedRequestHeader, TestData.RequestBody);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
+			Assert.That(request.Header, Is.EqualTo(TestData.NamedRequestHeader));
 			Assert.That(request.Body, Is.EqualTo(TestData.RequestBody));
 		}
 	}

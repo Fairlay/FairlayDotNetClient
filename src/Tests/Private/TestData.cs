@@ -62,12 +62,5 @@ namespace FairlayDotNetClient.Tests.Private
 		private const long ResponseNonce = 636396908273886242;
 		private const int ResponseServerId = 66;
 		private const string ResponseBody = "636396908276292303";
-
-		/// <summary>
-		/// https://github.com/Fairlay/PrivateApiDocumentation#fairlay-private-api-documentation-v0
-		/// </summary>
-		public static readonly string ApiResponseMessage =
-			$"{Convert.ToBase64String(ApiResponse.Signature)}|{ApiResponse.Nonce}|" +
-			$"{ApiResponse.ServerId}|{ApiResponse.Body}";
 	}
 }

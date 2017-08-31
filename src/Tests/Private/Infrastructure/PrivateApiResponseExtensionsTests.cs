@@ -1,5 +1,4 @@
-﻿using System;
-using FairlayDotNetClient.Private;
+﻿using FairlayDotNetClient.Private;
 using FairlayDotNetClient.Private.Infrastructure;
 using NUnit.Framework;
 
@@ -10,14 +9,9 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		[Test]
 		public void CreateFromValidApiResponseMessage()
 		{
-			var parsedResponse =
-				PrivateApiResponseExtensions.CreateFromApiResponseMessage(TestData.ApiResponseMessage);
-			var actualResponse = TestData.ApiResponse;
-			Assert.That(parsedResponse, Is.Not.Null);
-			Assert.That(parsedResponse.Signature, Is.EqualTo(actualResponse.Signature));
-			Assert.That(parsedResponse.Nonce, Is.EqualTo(actualResponse.Nonce));
-			Assert.That(parsedResponse.ServerId, Is.EqualTo(actualResponse.ServerId));
-			Assert.That(parsedResponse.Body, Is.EqualTo(actualResponse.Body));
+			var parsedResponse = PrivateApiResponseExtensions.
+				CreateFromApiResponseMessage(TestData.ApiResponse.FormatIntoApiResponseMessage());
+			parsedResponse.AssertIsValueEquals(TestData.ApiResponse);
 		}
 
 		[TestCase("XError: general error")]

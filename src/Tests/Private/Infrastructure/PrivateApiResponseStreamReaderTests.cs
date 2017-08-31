@@ -18,10 +18,10 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 			using (var streamWriter = new StreamWriter(zipStream, Encoding.UTF8))
 			{
 				var responseReader = new PrivateApiResponseStreamReader(responseStream);
-				streamWriter.Write(TestData.ApiResponseMessage);
+				streamWriter.Write(TestData.ApiResponse.FormatIntoApiResponseMessage());
 				FlushTextWriterAndResetStreamPosition(streamWriter, responseStream);
 				var parsedResponse = await responseReader.ReadResponse();
-				AssertParsedResponseWithTestData(parsedResponse);
+				parsedResponse.AssertIsValueEquals(TestData.ApiResponse);
 			}
 		}
 
@@ -30,15 +30,6 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		{
 			streamWriter.Flush();
 			responseStream.Seek(0, SeekOrigin.Begin);
-		}
-
-		private static void AssertParsedResponseWithTestData(PrivateApiResponse parsedResponse)
-		{
-			var actualResponse = TestData.ApiResponse;
-			Assert.That(parsedResponse.Signature, Is.EqualTo(actualResponse.Signature));
-			Assert.That(parsedResponse.Nonce, Is.EqualTo(actualResponse.Nonce));
-			Assert.That(parsedResponse.ServerId, Is.EqualTo(actualResponse.ServerId));
-			Assert.That(parsedResponse.Body, Is.EqualTo(actualResponse.Body));
 		}
 	}
 }
