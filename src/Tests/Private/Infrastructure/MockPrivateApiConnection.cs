@@ -37,6 +37,6 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 			inMemoryResponseStream.Seek(0, SeekOrigin.Begin);
 		}
 
-		public override void SetEndpoint(IPEndPoint endpoint) { } //ncrunch: no coverage
+		public override void SetEndpoint(IPEndPoint endPoint) { } //ncrunch: no coverage
 	}
 }

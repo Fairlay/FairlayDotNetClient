@@ -24,6 +24,6 @@ namespace FairlayDotNetClient.Private.Infrastructure
 			return await responseReader.ReadResponse();
 		}
 
-		public abstract void SetEndpoint(IPEndPoint endpoint);
+		public abstract void SetEndpoint(IPEndPoint endPoint);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Security.Cryptography;
 using FairlayDotNetClient.Private;
 using FairlayDotNetClient.Private.Requests;
@@ -45,7 +46,7 @@ namespace FairlayDotNetClient.Tests.Private
 
 		public const long UserId = 1007206;
 		public const int NativeApiAccountId = 0;
-		public const int RegisteredApiAccountId = 2;
+		public const int RegisteredApiAccountId = 1;
 		public const string NumericRequestHeader = "25";
 		public const string NamedRequestHeader = nameof(NamedRequestHeader);
 		public const string RequestBody = nameof(RequestBody);
@@ -62,5 +63,8 @@ namespace FairlayDotNetClient.Tests.Private
 		private const long ResponseNonce = 636396908273886242;
 		private const int ResponseServerId = 66;
 		private const string ResponseBody = "636396908276292303";
+
+		public static readonly IPEndPoint ApiServerEndPoint =
+			new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017);
 	}
 }

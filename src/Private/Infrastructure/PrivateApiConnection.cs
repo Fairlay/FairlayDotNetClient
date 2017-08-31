@@ -7,7 +7,7 @@ namespace FairlayDotNetClient.Private.Infrastructure
 {
 	public interface PrivateApiConnection
 	{
-		void SetEndpoint(IPEndPoint endpoint);
+		void SetEndpoint(IPEndPoint endPoint);
 		Task<PrivateApiResponse> DoApiRequest(SignedPrivateApiRequest request);
 	}
 }

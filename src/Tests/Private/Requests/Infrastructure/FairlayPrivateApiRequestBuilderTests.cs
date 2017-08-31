@@ -31,7 +31,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 			var request = builder.BuildRequest(TestData.NumericRequestHeader);
 			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
 			// https://github.com/Fairlay/PrivateApiDocumentation#use-another-api-account
-			Assert.That(request.Header, Is.EqualTo("2025"));
+			Assert.That(request.Header, Is.EqualTo("1025"));
 			AssertRequestBodyIsEmptyString(request);
 		}
 
