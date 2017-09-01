@@ -31,9 +31,10 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		{
 			var inMemoryResponseStream = new MemoryStream();
 			SetResponseStream(inMemoryResponseStream);
+			string apiResponseMessage = currentFakeResponse.FormatIntoApiResponseMessage();
+			var apiResponseMessageData = Encoding.UTF8.GetBytes(apiResponseMessage);
 			using (var zipStream = new GZipStream(inMemoryResponseStream, CompressionMode.Compress, true))
-			using (var streamWriter = new StreamWriter(zipStream, Encoding.UTF8))
-				streamWriter.Write(currentFakeResponse.FormatIntoApiResponseMessage());
+				zipStream.Write(apiResponseMessageData, 0, apiResponseMessageData.Length);
 			inMemoryResponseStream.Seek(0, SeekOrigin.Begin);
 		}
 

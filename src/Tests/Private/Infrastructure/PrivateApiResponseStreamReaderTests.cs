@@ -3,7 +3,6 @@ using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 using FairlayDotNetClient.Private.Infrastructure;
-using FairlayDotNetClient.Private.Responses;
 using NUnit.Framework;
 
 namespace FairlayDotNetClient.Tests.Private.Infrastructure
@@ -15,21 +14,16 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		{
 			using (var responseStream = new MemoryStream())
 			using (var zipStream = new GZipStream(responseStream, CompressionMode.Compress))
-			using (var streamWriter = new StreamWriter(zipStream, Encoding.UTF8))
 			{
 				var responseReader = new PrivateApiResponseStreamReader(responseStream);
-				streamWriter.Write(TestData.ApiResponse.FormatIntoApiResponseMessage());
-				FlushTextWriterAndResetStreamPosition(streamWriter, responseStream);
+				string apiResponseMessage = TestData.ApiResponse.FormatIntoApiResponseMessage();
+				var apiReponseMessageData = Encoding.UTF8.GetBytes(apiResponseMessage);
+				zipStream.Write(apiReponseMessageData, 0, apiReponseMessageData.Length);
+				zipStream.Flush();
+				responseStream.Seek(0, SeekOrigin.Begin);
 				var parsedResponse = await responseReader.ReadResponse();
 				parsedResponse.AssertIsValueEquals(TestData.ApiResponse);
 			}
-		}
-
-		private static void FlushTextWriterAndResetStreamPosition(TextWriter streamWriter,
-			Stream responseStream)
-		{
-			streamWriter.Flush();
-			responseStream.Seek(0, SeekOrigin.Begin);
 		}
 	}
 }

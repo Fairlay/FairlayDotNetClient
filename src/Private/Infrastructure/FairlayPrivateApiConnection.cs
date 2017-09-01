@@ -18,14 +18,7 @@ namespace FairlayDotNetClient.Private.Infrastructure
 			var socket = CreateSocketFromCurrentEndPoint();
 			await socket.ConnectAsync(currentEndpoint.Address, currentEndpoint.Port);
 			using (var networkStream = new NetworkStream(socket, true))
-			{
-				// Data are not written or flushed properly to the underlying Socket when directly using
-				// the NetworkStream. Wrapping it into a BufferedStream is fixing this.
-				// See example for details:
-				// https://docs.microsoft.com/en-us/dotnet/api/system.io.bufferedstream?view=netcore-2.0#Examples
-				using (var bufferedNetworkStream = new BufferedStream(networkStream))
-					return await SetBidirectionalStreamAndDoRequest(request, bufferedNetworkStream);
-			}
+				return await SetBidirectionalStreamAndDoRequest(request, networkStream);
 		}
 
 		private static Socket CreateSocketFromCurrentEndPoint()

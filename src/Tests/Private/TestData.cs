@@ -10,17 +10,26 @@ namespace FairlayDotNetClient.Tests.Private
 	public static class TestData
 	{
 		public const string ClientPrivateRsaXml =
-			"<RSAKeyValue><Modulus>5ZuQEg2qtTrYvehQTxdBJiOSyNiBpBW+fVlk7HJ9+6OQmGCNhnjLfcGFMA1ODxsiC" +
-			"8ILlI5++l2H8SCtDLNMGi2O5aDBsY9Bs+QetQAJVKyFtsoDRtBvy4vlR/joMP+jic/Mt2r92riFGWunZliPI47q" +
-			"iPVJd8JycXR2Kf8VbCU=</Modulus><Exponent>AQAB</Exponent><P>/b6BwxydWyLh1RAaJtO4ROiRNYUB1" +
-			"4TAzjfleylapPfT64HlDyLbMzolg0zbH1FDq6D17mEB+Ac3m9+cKHWpzQ==</P><Q>56Yfum0pgh4Yi0WKzmiu/" +
-			"rKYVkVqjz0acjczKtgaUjLEsE2vUM4B9N+8S2EXci5TZ/dCsYktMuD157Ea5sGTuQ==</Q><DP>sR4zka/9nsoA" +
-			"fSraNlP/AgqcoZEQMhH2S3v08T1yikh7Yp6u9xvLijyCRt507a1Z4Qlf4V9RcoIHLQSvCgbn2Q==</DP><DQ>01" +
-			"Bv0RiTrObXbPTbUr+cIyu4W7qnIlOTNG22d3b7S9CULGAxdXz3u/H9SqYfRUGNRGICrQF+AdPFfr3I1IfxwQ==<" +
-			"/DQ><InverseQ>dA/bkeMYF3YO1+2ZQftJ5M1tcyBocrYu30q3ztNwqegWwKmBNQc+GxM/OY0ybTQBkuwX3IMo8" +
-			"0KUgHj7puOgfw==</InverseQ><D>oAyvAZabPxcVDFPK30bTd/VmFTCuNaWekhvlONiaLvWWDlGHdYvwNOnXoG" +
-			"Y12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGSeFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE" +
-			"+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
+			"<RSAKeyValue><Modulus>o64bABZ0Vs53iA473sKBPCkelOoi89DO7cU6Q7BvyKXJ+8iFjPipV6VNIadm8IlRA" +
+			"l0ccUQrJ3D4v21nAAUApn2KRCOVFa+XKcoEe4OW4vqa3lVdCgltVPBsuLt6heD8ZRxO7sHIAd9q3PgQfihvUsCm" +
+			"c9GR4d3sEUfaXP3kkgj0ZEVfAtgcEMYSVH9tKpCtGBKAoA1bQ47aHOJMr/iccURqq6kuBqZlwt1XiCp+7cf0V71" +
+			"u2ySzi7k+n2UJzxuiWpBi6PXH/hwzY2MXukXrKOGjL4qegiRSu9p7ZbWZRtx0ia5m4sSRq2GLZzYG3ht3X/4H0k" +
+			"DZam1h5Ieqt0JWsw==</Modulus><Exponent>AQAB</Exponent><P>1D35jZ4b3Vx87eEwJec5PwJaYFhIkR7" +
+			"Vggg3HWt/7Res7s1ZphGOo7qK3M4bq+swy8ero0cTsKXHPpHMNPlepZ0VZMHY4sQPTRNqP1xHIDa+KzbNb2mqZd" +
+			"BAhH0ToxQdlgIdz2IE9gbcbga7nPTD4n2N3jCDhtloEFkNlNj8gOE=</P><Q>xW0N9bRTMzuu69+3ju2wbCu7uQ" +
+			"9iH5clQFW0/8iMtn8naq2arXEeqKARTx+JLEl5MkJAayJy4IEOxWeXqlJAMxFmNxkIz6KojlupLxveBViwUPb6z" +
+			"FKmPBEv+vUOkb/IrYkMiA6oCYTgccjNadhXMy8tf4E3eiCiz9FLrv/vhhM=</Q><DP>VLQDI1SlVDu0FA+Z8paM" +
+			"Dyx2OxsgouIGXaW/sTsUy992Abvsek1peshY4PRUsNDlIX6nbjtQjWAr2zm+oKmg70F4p0SBtUZ/wMft0CmYrS+" +
+			"Lx51QcZVfDtEE3ps4Og4uHI7trLU2u6VTVYnUWDiK8JohAzqjUy7yzAtuUygh5aE=</DP><DQ>AX6BzIpA1vJss" +
+			"HxQ91P1Mdxi31Ouem66aXI8nHL4Hal4suX9dbKVeNE9UEv8zckAkdDOjAEGvYw8gGH4U+Grerd2/pPB7VBd1jX7" +
+			"Yc/kLkYtj29PFpzJhUrcAho4sgGxkx6maaEyxF+tEy9h3ps0jb6dqYlg0hvNH6WF3R0ywuE=</DQ><InverseQ>" +
+			"W7rdXXBoJVKbMRVPdsgdT473+beXtbDBAVlGxjyws1XQ3vzIWcdY8rwIfEII29Q6MZG5ryNEE/DbE5iwPuqBXUO" +
+			"FgCpnt/98K+oMaq9yEAoA1zkwgWppKCNGPMP72wgOgE71PgFfcNsUlXtkFty7Zfb2p1OLBfEy/t6e3dqkPhA=</" +
+			"InverseQ><D>CJtBBDIqD95vXpIRB9eGYBlxaDcfe16BYvM56xE973j4M+sJSq5QiTFB6wEYYpF11v/6XOJOupY" +
+			"wHjCsd83LiPWU7ZxJXIiNFD9xGOWEa47t0b7/U2XHf+3caaJCAQQhgVeJtvgtghuzTMcmZtvNbrZ+ihx85Tl8Dj" +
+			"SPANDA0gTc+lyMTqxXVBIX43rY0Hglm54P92EIwsUEsp/TQ1rXDPVTkhIQY1wXv+mdV1SrvZQbvV/DCHZeLJveG" +
+			"5h4Gc3X9Npq1QytTfaSwV/m8Hk0qqrpZChKdUh6RiHIg7g+UeUsElXzUfZ3Un6gHyuTk1FH0dsxguBGzzH+zEFg" +
+			"W1SCgQ==</D></RSAKeyValue>";
 
 		public const string ClientPublicRsaXml =
 			"<RSAKeyValue><Modulus>o64bABZ0Vs53iA473sKBPCkelOoi89DO7cU6Q7BvyKXJ+8iFjPipV6VNIadm8IlRA" +

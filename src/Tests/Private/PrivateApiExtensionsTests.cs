@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace FairlayDotNetClient.Tests.Private
 {
-	// TODO: See SigningExtensionsTests
 	[Explicit]
 	public class PrivateApiExtensionsTests
 	{
