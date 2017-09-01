@@ -13,15 +13,15 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		{
 			requestBuilder = new FairlayPrivateApiRequestBuilder();
 			requestBuilder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);
-			nonceGenerator = new FairlayPrivateApiRequestNonceGenerator();
 			requestSigner = new FairlayPrivateApiRequestSigner();
 			requestSigner.SetRsaParameters(TestData.Credentials.PrivateRsaParameters);
+			requestNonceGenerator = new FairlayPrivateApiRequestNonceGenerator();
 			apiConnection = new FairlayPrivateApiConnection();
 		}
 
 		private PrivateApiRequestBuilder requestBuilder;
-		private PrivateApiRequestNonceGenerator nonceGenerator;
 		private PrivateApiRequestSigner requestSigner;
+		private PrivateApiRequestNonceGenerator requestNonceGenerator;
 		private FairlayPrivateApiConnection apiConnection;
 
 		[Test, Explicit]
@@ -30,7 +30,7 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 			const string GetServerTimeRequestHeader = "2";
 			apiConnection.SetEndpoint(TestData.Credentials.ServerEndPoint);
 			var request = requestBuilder.BuildRequest(GetServerTimeRequestHeader);
-			var signedRequest = requestSigner.SignRequest(request, nonceGenerator.GenerateNonce());
+			var signedRequest = requestSigner.SignRequest(request, requestNonceGenerator.GenerateNonce());
 			var response = await apiConnection.DoApiRequest(signedRequest);
 			Assert.That(response, Is.Not.Null);
 			Assert.That(response.Body, Is.Not.Empty);
