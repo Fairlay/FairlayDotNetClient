@@ -4,6 +4,6 @@ namespace FairlayDotNetClient.Private
 {
 	public interface PrivateApi
 	{
-		Task<string> DoRequestAndVerify(string requestHeader, string requestBody = null);
+		Task<string> DoApiRequestAndVerify(string requestHeader, string requestBody = null);
 	}
 }

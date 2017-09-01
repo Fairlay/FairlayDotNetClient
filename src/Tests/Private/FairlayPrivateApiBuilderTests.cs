@@ -95,17 +95,5 @@ namespace FairlayDotNetClient.Tests.Private
 			public Task<PrivateApiResponse> DoApiRequest(SignedPrivateApiRequest request)
 				=> null; //ncrunch: no coverage
 		}
-
-		//[Test]
-		//public async Task BuildWithMockApiConnection()
-		//{
-		//	var apiConnection = new MockPrivateApiConnection();
-		//	apiConnection.SetFakeResponse(TestData.ApiResponse);
-		//	builder.UseApiConnection(apiConnection);
-		//	var privateApi = builder.Build();
-		//	string response = await privateApi.DoRequestAndVerify(TestData.ApiRequest.Header,
-		//		TestData.ApiRequest.Body);
-		//	Assert.That(response, Is.EqualTo(TestData.ApiResponse.Body));
-		//}
 	}
 }
