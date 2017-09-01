@@ -12,10 +12,10 @@ namespace FairlayDotNetClient.Tests.Private
 		{
 			const string Content = "Hello World";
 			var contentSignatureData = SigningExtensions.SignStringUsingSha512(Content,
-				TestData.ClientPrivateRsaParameters);
+				TestData.Credentials.PrivateRsaParameters);
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportParameters(TestData.ClientPrivateRsaParameters);
+				rsa.ImportParameters(TestData.ClientPublicRsaParameters);
 				var contentData = Encoding.UTF8.GetBytes(Content);
 				bool isValidSignature = rsa.VerifyData(contentData, contentSignatureData,
 					HashAlgorithmName.SHA512, RSASignaturePadding.Pkcs1);

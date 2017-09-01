@@ -12,6 +12,6 @@ namespace FairlayDotNetClient.Private.Infrastructure
 			=> $"{Convert.ToBase64String(request.Signature)}|{request.Nonce}|{request.UserId}|" +
 			$"{request.Header}|{request.Body}{EndOfDataToken}";
 
-		public const string EndOfDataToken = "<\"ENDOFDATA\">";
+		public const string EndOfDataToken = "<ENDOFDATA>";
 	}
 }
