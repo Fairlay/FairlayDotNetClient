@@ -22,9 +22,6 @@ namespace FairlayDotNetClient.Tests.Private
 			"Y12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGSeFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE" +
 			"+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
 
-		public static readonly RSAParameters ClientPrivateRsaParameters =
-			RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml);
-
 		public const string ServerPublicRsaXml =
 			"<RSAKeyValue><Modulus>udnE0+F2lSFLJs3wyQT/2W53juqh1hW9NaEwWMfefkV8FHUJTgJQINBrvja/Ii6i1" +
 			"W2ptBhNjin63K0stJmFArdi74TTL0KoTlBpZ3x0r4SQZGX+ZoryO5NFa4UB7NbYvKJxZHnjnFJiNtnf08rOmgdt" +
@@ -33,8 +30,20 @@ namespace FairlayDotNetClient.Tests.Private
 		public static readonly RSAParameters ServerPublicRsaParameters =
 			RsaParametersExtensions.CreateFromXmlString(ServerPublicRsaXml);
 
-		public static readonly PrivateApiRequest ApiRequest = new PrivateApiRequest(UserId,
-			NamedRequestHeader, RequestBody);
+		public static readonly PrivateApiCredentials Credentials = new PrivateApiCredentials
+		{
+			UserId = 1007206,
+			ApiAccountId = 1,
+			PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+			ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+		};
+
+		public static readonly PrivateApiRequest ApiRequest = new PrivateApiRequest(Credentials.UserId,
+			NumericRequestHeader, RequestBody);
+
+		private const string NumericRequestHeader = "25";
+		private const string RequestBody = nameof(RequestBody);
+		public const string NamedRequestHeader = nameof(NamedRequestHeader);
 
 		private static readonly byte[] RequestSignature =
 			Convert.FromBase64String("k6kkNa2eux2/fIun+CaCmSQGzdwbuA20PGuePP6rV425T7UF8bywN/GrA7cIyE" +
@@ -44,12 +53,6 @@ namespace FairlayDotNetClient.Tests.Private
 		public static readonly SignedPrivateApiRequest SignedApiRequest =
 			new SignedPrivateApiRequest(ApiRequest, RequestSignature, RequestNonce);
 
-		public const long UserId = 1007206;
-		public const int NativeApiAccountId = 0;
-		public const int RegisteredApiAccountId = 1;
-		public const string NumericRequestHeader = "25";
-		public const string NamedRequestHeader = nameof(NamedRequestHeader);
-		public const string RequestBody = nameof(RequestBody);
 		public const long RequestNonce = 636395926873808918;
 
 		private static readonly byte[] ResponseSignature =
@@ -64,7 +67,9 @@ namespace FairlayDotNetClient.Tests.Private
 		private const int ResponseServerId = 66;
 		private const string ResponseBody = "636396908276292303";
 
-		public static readonly IPEndPoint ApiServerEndPoint =
-			new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017);
+		/// <summary>
+		/// Normal users do not have the private key to use their native API Account #0.
+		/// </summary>
+		public const int NativeApiAccountId = 0;
 	}
 }

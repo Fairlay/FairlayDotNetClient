@@ -12,10 +12,10 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		public void Initilize()
 		{
 			requestBuilder = new FairlayPrivateApiRequestBuilder();
-			requestBuilder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
+			requestBuilder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);
 			nonceGenerator = new FairlayPrivateApiRequestNonceGenerator();
 			requestSigner = new FairlayPrivateApiRequestSigner();
-			requestSigner.SetRsaParameters(TestData.ClientPrivateRsaParameters);
+			requestSigner.SetRsaParameters(TestData.Credentials.PrivateRsaParameters);
 			apiConnection = new FairlayPrivateApiConnection();
 		}
 
@@ -27,8 +27,8 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		[Test, Explicit]
 		public async Task DoGetServerTimeRequestToRealApiServer()
 		{
-			apiConnection.SetEndpoint(TestData.ApiServerEndPoint);
 			const string GetServerTimeRequestHeader = "2";
+			apiConnection.SetEndpoint(TestData.Credentials.ServerEndPoint);
 			var request = requestBuilder.BuildRequest(GetServerTimeRequestHeader);
 			var signedRequest = requestSigner.SignRequest(request, nonceGenerator.GenerateNonce());
 			var response = await apiConnection.DoApiRequest(signedRequest);

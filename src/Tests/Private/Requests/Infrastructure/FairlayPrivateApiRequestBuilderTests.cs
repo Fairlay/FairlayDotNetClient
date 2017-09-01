@@ -12,57 +12,58 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		private FairlayPrivateApiRequestBuilder builder;
 
 		[Test]
-		public void BuildWithNativeAccountIdAndNumericHeader()
+		public void BuildWithNativeApiAccountIdAndNumericHeader()
 		{
-			builder.SetApiUser(TestData.UserId, TestData.NativeApiAccountId);
-			var request = builder.BuildRequest(TestData.NumericRequestHeader);
-			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
-			Assert.That(request.Header, Is.EqualTo(TestData.NumericRequestHeader));
-			AssertRequestBodyIsEmptyString(request);
+			builder.SetApiUser(TestData.Credentials.UserId, TestData.NativeApiAccountId);
+			var request = builder.BuildRequest(TestData.ApiRequest.Header);
+			Assert.That(request.UserId, Is.EqualTo(TestData.Credentials.UserId));
+			Assert.That(request.Header, Is.EqualTo(TestData.ApiRequest.Header));
+			AssertIsEmptyRequestBody(request);
 		}
 
-		private static void AssertRequestBodyIsEmptyString(PrivateApiRequest request)
+		private static void AssertIsEmptyRequestBody(PrivateApiRequest request)
 			=> Assert.That(request.Body, Is.Empty);
 
 		[Test]
-		public void BuildWithRegisteredAccountIdAndNumericHeader()
+		public void BuildWithRegisteredApiAccountIdAndNumericHeader()
 		{
-			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
-			var request = builder.BuildRequest(TestData.NumericRequestHeader);
-			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
+			builder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);
+			var request = builder.BuildRequest(TestData.ApiRequest.Header);
+			Assert.That(request.UserId, Is.EqualTo(TestData.Credentials.UserId));
+			// Numeric header with non-native api account id has to be header + 1000 * api_account_id
 			// https://github.com/Fairlay/PrivateApiDocumentation#use-another-api-account
 			Assert.That(request.Header, Is.EqualTo("1025"));
-			AssertRequestBodyIsEmptyString(request);
+			AssertIsEmptyRequestBody(request);
 		}
 
 		[Test]
-		public void BuildWithNativeAccountIdAndNamedHeader()
+		public void BuildWithNativeApiAccountIdAndNamedHeader()
 		{
-			builder.SetApiUser(TestData.UserId, TestData.NativeApiAccountId);
+			builder.SetApiUser(TestData.Credentials.UserId, TestData.NativeApiAccountId);
 			var request = builder.BuildRequest(TestData.NamedRequestHeader);
-			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
+			Assert.That(request.UserId, Is.EqualTo(TestData.Credentials.UserId));
 			Assert.That(request.Header, Is.EqualTo(TestData.NamedRequestHeader));
-			AssertRequestBodyIsEmptyString(request);
+			AssertIsEmptyRequestBody(request);
 		}
 
 		[Test]
-		public void BuildWithRegisteredAccountIdAndNamedHeader()
+		public void BuildWithRegisteredApiAccountIdAndNamedHeader()
 		{
-			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
+			builder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);
 			var request = builder.BuildRequest(TestData.NamedRequestHeader);
-			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
+			Assert.That(request.UserId, Is.EqualTo(TestData.Credentials.UserId));
 			Assert.That(request.Header, Is.EqualTo(TestData.NamedRequestHeader));
-			AssertRequestBodyIsEmptyString(request);
+			AssertIsEmptyRequestBody(request);
 		}
 
 		[Test]
 		public void BuildWithRequestBody()
 		{
-			builder.SetApiUser(TestData.UserId, TestData.RegisteredApiAccountId);
-			var request = builder.BuildRequest(TestData.NamedRequestHeader, TestData.RequestBody);
-			Assert.That(request.UserId, Is.EqualTo(TestData.UserId));
+			builder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);
+			var request = builder.BuildRequest(TestData.NamedRequestHeader, TestData.ApiRequest.Body);
+			Assert.That(request.UserId, Is.EqualTo(TestData.Credentials.UserId));
 			Assert.That(request.Header, Is.EqualTo(TestData.NamedRequestHeader));
-			Assert.That(request.Body, Is.EqualTo(TestData.RequestBody));
+			Assert.That(request.Body, Is.EqualTo(TestData.ApiRequest.Body));
 		}
 	}
 }

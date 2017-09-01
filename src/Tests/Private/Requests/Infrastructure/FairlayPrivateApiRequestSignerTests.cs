@@ -12,7 +12,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		public void Initilize()
 		{
 			signer = new FairlayPrivateApiRequestSigner();
-			signer.SetRsaParameters(TestData.ClientPrivateRsaParameters);
+			signer.SetRsaParameters(TestData.Credentials.PrivateRsaParameters);
 		}
 
 		private FairlayPrivateApiRequestSigner signer;
@@ -34,7 +34,7 @@ namespace FairlayDotNetClient.Tests.Private.Requests.Infrastructure
 		{
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportParameters(TestData.ClientPrivateRsaParameters);
+				rsa.ImportParameters(TestData.Credentials.PrivateRsaParameters);
 				string signableString = request.FormatIntoSignableString(TestData.RequestNonce);
 				var signableStringData = Encoding.UTF8.GetBytes(signableString);
 				bool isValidSignature = rsa.VerifyData(signableStringData, signedRequest.Signature,
