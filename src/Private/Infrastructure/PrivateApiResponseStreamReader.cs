@@ -8,7 +8,8 @@ namespace FairlayDotNetClient.Private.Infrastructure
 {
 	public class PrivateApiResponseStreamReader
 	{
-		public PrivateApiResponseStreamReader(Stream responseStream) => this.responseStream = responseStream;
+		public PrivateApiResponseStreamReader(Stream responseStream)
+			=> this.responseStream = responseStream;
 
 		private readonly Stream responseStream;
 
