@@ -15,8 +15,9 @@ namespace FairlayDotNetClient.Tests.Private
 				TestData.Credentials.PrivateRsaParameters);
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportParameters(TestData.Credentials.PrivateRsaParameters);
+				rsa.ImportParameters(TestData.ClientPublicRsaParameters);
 				var contentData = Encoding.UTF8.GetBytes(Content);
+				// TODO: might be the reasong for  'XError:Wrong Signature' in PrivateApiExtensionsTests
 				bool isValidSignature = rsa.VerifyData(contentData, contentSignatureData,
 					HashAlgorithmName.SHA512, RSASignaturePadding.Pkcs1);
 				Assert.That(isValidSignature, Is.True);

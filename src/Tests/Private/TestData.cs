@@ -22,6 +22,16 @@ namespace FairlayDotNetClient.Tests.Private
 			"Y12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGSeFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE" +
 			"+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
 
+		public const string ClientPublicRsaXml =
+			"<RSAKeyValue><Modulus>o64bABZ0Vs53iA473sKBPCkelOoi89DO7cU6Q7BvyKXJ+8iFjPipV6VNIadm8IlRA" +
+			"l0ccUQrJ3D4v21nAAUApn2KRCOVFa+XKcoEe4OW4vqa3lVdCgltVPBsuLt6heD8ZRxO7sHIAd9q3PgQfihvUsCm" +
+			"c9GR4d3sEUfaXP3kkgj0ZEVfAtgcEMYSVH9tKpCtGBKAoA1bQ47aHOJMr/iccURqq6kuBqZlwt1XiCp+7cf0V71" +
+			"u2ySzi7k+n2UJzxuiWpBi6PXH/hwzY2MXukXrKOGjL4qegiRSu9p7ZbWZRtx0ia5m4sSRq2GLZzYG3ht3X/4H0k" +
+			"DZam1h5Ieqt0JWsw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+
+		public static readonly RSAParameters ClientPublicRsaParameters =
+			RsaParametersExtensions.CreateFromXmlString(ClientPublicRsaXml);
+
 		public const string ServerPublicRsaXml =
 			"<RSAKeyValue><Modulus>udnE0+F2lSFLJs3wyQT/2W53juqh1hW9NaEwWMfefkV8FHUJTgJQINBrvja/Ii6i1" +
 			"W2ptBhNjin63K0stJmFArdi74TTL0KoTlBpZ3x0r4SQZGX+ZoryO5NFa4UB7NbYvKJxZHnjnFJiNtnf08rOmgdt" +
