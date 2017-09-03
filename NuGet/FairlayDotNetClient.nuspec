@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="2.12">
+	<id>FairlayDotNetClient</id>
+	<version>1.0</version>
+	<title>FairlayDotNetClient</title>
+	<authors>Fairlay</authors>
+	<owners>Fairlay</owners>
+	<dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.CSharp" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.TypeConverter" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Formatters" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Xml.XmlDocument" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+	</dependencies>
+	<description>Fairlay provides a simple and powerful API to check globally accessible market data via the Public API and work with your account data and integrate external providers easily via the Private API.</description>
+	<projectUrl>https://github.com/Fairlay/FairlayDotNetClient</projectUrl>
+	<language>en-US</language>
+	<tags>fairlay bitcoin litecoin dash eth crypto cryptocurrency betting bet financial blockchain api payment</tags>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<licenseUrl>https://github.com/Fairlay/FairlayDotNetClient/blob/master/LICENSE.md</licenseUrl>
+	<iconUrl>https://github.com/Fairlay/FairlayDotNetClient/tree/master/NuGet/FairlayDotNetClient.png</iconUrl>
+    <copyright>Copyright © Fairlay 2017</copyright>
+  </metadata>
+  <files>
+    <file src="FairlayDotNetClient.dll" target="lib\netstandard2.0" />
+  </files>
+</package>
