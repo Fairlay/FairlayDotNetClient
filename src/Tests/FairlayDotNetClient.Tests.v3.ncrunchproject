@@ -1,0 +1,18 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>FairlayDotNetClient.Tests.Private.Infrastructure.FairlayPrivateApiConnectionTests.DoGetServerTimeRequestToRealApiServer</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>FairlayDotNetClient.Tests.Private.PrivateApiExtensionsTests.TestGetTransfers</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>FairlayDotNetClient.Tests.Private.PrivateApiExtensionsTests.TestGetServerTime</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>FairlayDotNetClient.Tests.Private.PrivateApiExtensionsTests.TestGetBalances</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
+  </Settings>
+</ProjectConfiguration>

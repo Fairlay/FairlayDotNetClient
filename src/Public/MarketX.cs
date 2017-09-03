@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace FairlayDotNetClient.Public
 {
-	public class Market : IComparable<Market>
+	public class MarketX : IComparable<MarketX>
 	{
 		public static class Category
 		{
@@ -102,9 +102,9 @@ namespace FairlayDotNetClient.Public
 			CANCELLED
 		}
 
-		public Market() {}
+		public MarketX() {}
 		
-		public Market(MarketType mtype, MarketPeriod mper, string title, string competition,
+		public MarketX(MarketType mtype, MarketPeriod mper, string title, string competition,
 			int creator, string description, int category, DateTime closing, DateTime settling,
 			string[] runnerNames, bool inplay = false, decimal commission = 0.02m)
 		{
@@ -168,9 +168,9 @@ namespace FairlayDotNetClient.Public
 		public double Pop;
 		public decimal Margin;
 		public decimal ExcludedMargin200;
-		public int CompareTo(Market other) => ID.CompareTo(other.ID);
+		public int CompareTo(MarketX other) => ID.CompareTo(other.ID);
 
-		public static int CompareClosingTime(Market a, Market b)
+		public static int CompareClosingTime(MarketX a, MarketX b)
 			=> a.ClosD == b.ClosD ? a.CompareTo(b) : a.ClosD.CompareTo(b.ClosD);
 
 		public override string ToString() => ToString(0);

@@ -26,7 +26,7 @@ namespace FairlayDotNetClient.Tests.Public
 		[Test]
 		public async Task GetMarkets()
 		{
-			var markets = await api.GetMarkets(Market.Category.BITCOIN);
+			var markets = await api.GetMarkets(MarketX.Category.BITCOIN);
 			Assert.That(markets, Is.Not.Empty);
 			Assert.That(markets[0].ToString(), Is.Not.Empty);
 			Console.WriteLine(markets[0]);
@@ -35,7 +35,7 @@ namespace FairlayDotNetClient.Tests.Public
 		[Test]
 		public async Task GetCompetitions()
 		{
-			var competitions = await api.GetCompetitions(Market.Category.SOCCER);
+			var competitions = await api.GetCompetitions(MarketX.Category.SOCCER);
 			Assert.That(competitions, Is.Not.Empty);
 			Console.WriteLine(competitions[0]);
 		}

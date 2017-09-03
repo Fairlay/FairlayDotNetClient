@@ -13,8 +13,7 @@ namespace FairlayDotNetClient.Tests.Private
 	public class FairlayPrivateApiBuilderTests
 	{
 		[SetUp]
-		public void Initilize() => builder = new FairlayPrivateApiBuilder(TestData.Credentials);
-
+		public void Initialize() => builder = new FairlayPrivateApiBuilder(TestData.Credentials);
 		private FairlayPrivateApiBuilder builder;
 
 		[Test]
@@ -22,8 +21,8 @@ namespace FairlayDotNetClient.Tests.Private
 		{
 			var requestBuilder = new DummyRequestBuilderSpy();
 			Assert.That(builder.UseRequestBuilder(requestBuilder), Is.EqualTo(builder));
-			Assert.That(requestBuilder.UserId, Is.EqualTo(TestData.Credentials.UserId));
-			Assert.That(requestBuilder.ApiAccountId, Is.EqualTo(TestData.Credentials.ApiAccountId));
+			Assert.That(requestBuilder.OurUserId, Is.EqualTo(TestData.Credentials.UserId));
+			Assert.That(requestBuilder.OurApiAccountId, Is.EqualTo(TestData.Credentials.ApiAccountId));
 			AssertCanFairlayPrivateApi();
 		}
 
@@ -63,14 +62,14 @@ namespace FairlayDotNetClient.Tests.Private
 
 		private class DummyRequestBuilderSpy : PrivateApiRequestBuilder
 		{
-			public void SetApiUser(long userId, int apiAccountId)
+			public void SetApiUser(int userId, int apiAccountId)
 			{
-				UserId = userId;
-				ApiAccountId = apiAccountId;
+				OurUserId = userId;
+				OurApiAccountId = apiAccountId;
 			}
 
-			public long UserId { get; private set; }
-			public int ApiAccountId { get; private set; }
+			public int OurUserId { get; private set; }
+			public int OurApiAccountId { get; private set; }
 			public PrivateApiRequest BuildRequest(string requestHeader, string requestBody = null)
 				=> null; //ncrunch: no coverage
 		}

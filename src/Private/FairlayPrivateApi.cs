@@ -2,6 +2,7 @@
 using FairlayDotNetClient.Private.Infrastructure;
 using FairlayDotNetClient.Private.Requests.Infrastructure;
 using FairlayDotNetClient.Private.Responses;
+using Newtonsoft.Json;
 
 namespace FairlayDotNetClient.Private
 {
@@ -21,10 +22,15 @@ namespace FairlayDotNetClient.Private
 		private readonly PrivateApiRequestSigner requestSigner;
 		private readonly PrivateApiRequestNonceGenerator requestNonceGenerator;
 		private readonly PrivateApiConnection apiConnection;
+		public override int OurUserId => requestBuilder.OurUserId;
 
-		public async Task<string> DoApiRequestAndVerify(string requestHeader, string requestBody = null)
+		public override async Task<string> DoApiRequestAndVerify(int requestHeaderId,
+			object requestBody = null)
 		{
-			var apiResponse = await DoApiRequest(requestHeader, requestBody);
+			string body = requestBody == null ? null : requestBody.GetType().IsPrimitive
+				? requestBody.ToString() : requestBody is string ? (string)requestBody
+					: JsonConvert.SerializeObject(requestBody);
+			var apiResponse = await DoApiRequest(requestHeaderId.ToString(), body);
 			ThrowIfServerErrorMessage(apiResponse.Body);
 			//TODO: Validate signature with server public key
 			return apiResponse.Body;

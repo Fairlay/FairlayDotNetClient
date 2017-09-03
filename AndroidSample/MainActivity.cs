@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using FairlayDotNetClient.Private;
 using FairlayDotNetClient.Public;
 
 namespace FairlayDotNetClient.AndroidSample
@@ -59,30 +60,40 @@ namespace FairlayDotNetClient.AndroidSample
 			var spinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
 			switch (spinner.SelectedItem.ToString())
 			{
-			case "Soccer": return Market.Category.SOCCER;
-			case "Tennis": return Market.Category.TENNIS;
-			case "Golf": return Market.Category.GOLF;
-			case "RugbyUnion": return Market.Category.RUGBYUNION;
-			case "Boxing": return Market.Category.BOXING;
-			case "HorseRacing": return Market.Category.HORSERACING;
-			case "MotorSport": return Market.Category.MOTORSPORT;
-			case "RugbyLeague": return Market.Category.RUGBYLEAGUE;
-			case "Basketball": return Market.Category.BASKETBALL;
-			case "AmericanFootball": return Market.Category.AMERICANFOOTBALL;
-			case "Baseball": return Market.Category.BASEBALL;
-			case "Hockey": return Market.Category.HOCKEY;
-			case "Politics": return Market.Category.POLITICS;
-			case "Financial": return Market.Category.FINANCIAL;
-			case "Esports": return Market.Category.ESPORTS;
-			default: return Market.Category.BITCOIN;
+			case "Soccer": return MarketX.Category.SOCCER;
+			case "Tennis": return MarketX.Category.TENNIS;
+			case "Golf": return MarketX.Category.GOLF;
+			case "RugbyUnion": return MarketX.Category.RUGBYUNION;
+			case "Boxing": return MarketX.Category.BOXING;
+			case "HorseRacing": return MarketX.Category.HORSERACING;
+			case "MotorSport": return MarketX.Category.MOTORSPORT;
+			case "RugbyLeague": return MarketX.Category.RUGBYLEAGUE;
+			case "Basketball": return MarketX.Category.BASKETBALL;
+			case "AmericanFootball": return MarketX.Category.AMERICANFOOTBALL;
+			case "Baseball": return MarketX.Category.BASEBALL;
+			case "Hockey": return MarketX.Category.HOCKEY;
+			case "Politics": return MarketX.Category.POLITICS;
+			case "Financial": return MarketX.Category.FINANCIAL;
+			case "Esports": return MarketX.Category.ESPORTS;
+			default: return MarketX.Category.BITCOIN;
 			}
 		}
 
 		private async void OnClickBalanceButton(object sender, EventArgs e)
 		{
-			await Task.Delay(1);
 			var balanceLabel = FindViewById<TextView>(Resource.Id.balanceLabel);
-			balanceLabel.Text = "TestAccount Balance: 0 mBTC";
+			var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
+			{
+				UserId = 1004056,
+				ApiAccountId = 1,
+				PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+				ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+			}).Build();
+			var balances = await privateApi.GetBalances();
+			balanceLabel.Text = "TestAccount Balance: " + balances[0].AvailableFunds + " mBTC";
 		}
+
+		public const string ClientPrivateRsaXml =
+			"<RSAKeyValue><Modulus>5ZuQEg2qtTrYvehQTxdBJiOSyNiBpBW+fVlk7HJ9+6OQmGCNhnjLfcGFMA1ODxsiC8ILlI5++l2H8SCtDLNMGi2O5aDBsY9Bs+QetQAJVKyFtsoDRtBvy4vlR/joMP+jic/Mt2r92riFGWunZliPI47qiPVJd8JycXR2Kf8VbCU=</Modulus><Exponent>AQAB</Exponent><P>/b6BwxydWyLh1RAaJtO4ROiRNYUB14TAzjfleylapPfT64HlDyLbMzolg0zbH1FDq6D17mEB+Ac3m9+cKHWpzQ==</P><Q>56Yfum0pgh4Yi0WKzmiu/rKYVkVqjz0acjczKtgaUjLEsE2vUM4B9N+8S2EXci5TZ/dCsYktMuD157Ea5sGTuQ==</Q><DP>sR4zka/9nsoAfSraNlP/AgqcoZEQMhH2S3v08T1yikh7Yp6u9xvLijyCRt507a1Z4Qlf4V9RcoIHLQSvCgbn2Q==</DP><DQ>01Bv0RiTrObXbPTbUr+cIyu4W7qnIlOTNG22d3b7S9CULGAxdXz3u/H9SqYfRUGNRGICrQF+AdPFfr3I1IfxwQ==</DQ><InverseQ>dA/bkeMYF3YO1+2ZQftJ5M1tcyBocrYu30q3ztNwqegWwKmBNQc+GxM/OY0ybTQBkuwX3IMo80KUgHj7puOgfw==</InverseQ><D>oAyvAZabPxcVDFPK30bTd/VmFTCuNaWekhvlONiaLvWWDlGHdYvwNOnXoGY12lvMgKuzjMtDgdv+rbtcRTUaPvbW14ZBLQ0FakuNtOwCax8uGGSeFsmBoLXJXTWJdtrlCyV1N581X+7yfeKjE+xXT1KLT0ojUCOqEq/yEQtZMeE=</D></RSAKeyValue>";
 	}
 }

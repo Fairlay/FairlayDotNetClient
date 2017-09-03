@@ -9,7 +9,7 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 	public class FairlayPrivateApiConnectionTests
 	{
 		[SetUp]
-		public void Initilize()
+		public void Initialize()
 		{
 			requestBuilder = new FairlayPrivateApiRequestBuilder();
 			requestBuilder.SetApiUser(TestData.Credentials.UserId, TestData.Credentials.ApiAccountId);

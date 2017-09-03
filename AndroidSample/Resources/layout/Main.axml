@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-	<Spinner
-		android:id="@+id/categorySpinner"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:prompt="@string/select_category" />
-  <Button
-    android:id="@+id/clickMarketsButton"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/click_markets" />
-  <ListView
-    android:id="@+id/marketsList"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
-  <Button
-    android:id="@+id/clickBalanceButton"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/click_balance" />
-	<TextView
-		android:id="@+id/balanceLabel"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Click button to show balance" />
+    android:layout_height="match_parent">
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/select_category" />
+    <Button
+        android:id="@+id/clickMarketsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/click_markets" />
+    <ListView
+        android:id="@+id/marketsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/clickBalanceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/click_balance" />
+    <TextView
+        android:id="@+id/balanceLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click button to show balance" />
 </LinearLayout>

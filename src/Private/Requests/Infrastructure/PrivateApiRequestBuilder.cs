@@ -2,7 +2,9 @@
 {
 	public interface PrivateApiRequestBuilder
 	{
-		void SetApiUser(long userId, int apiAccountId);
+		void SetApiUser(int userId, int apiAccountId);
+		int OurUserId { get; }
+		int OurApiAccountId { get; }
 		PrivateApiRequest BuildRequest(string requestHeader, string requestBody = null);
 	}
 }

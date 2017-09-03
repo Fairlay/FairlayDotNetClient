@@ -12,7 +12,7 @@ namespace FairlayDotNetClient.Public
 			=> new DateTime(Convert.ToInt64(await GetServerResponse(Time)));
 		protected const string Time = "time";
 
-		public Task<List<Market>> GetMarkets(int category, string[] runnerAnd = null,
+		public Task<List<MarketX>> GetMarkets(int category, string[] runnerAnd = null,
 			int[] typeOr = null, int[] periodOr = null, bool onlyActive = true)
 			=> GetMarkets("\"Cat\":" + category +
 				(runnerAnd != null ? ",\"RunnerAND\":[\"" + runnerAnd.ToText("\",\"") + "\"]" : "") +
@@ -20,10 +20,10 @@ namespace FairlayDotNetClient.Public
 				(periodOr != null ? ",\"PeriodOr\":[" + periodOr.ToText() + "]" : "") +
 				", \"OnlyActive\":" + onlyActive.ToString().ToLower());
 
-		public async Task<List<Market>> GetMarkets(string jsonParameters)
+		public async Task<List<MarketX>> GetMarkets(string jsonParameters)
 		{
 			string response = await GetServerResponse(Markets, jsonParameters);
-			var markets = JsonConvert.DeserializeObject<List<Market>>(response);
+			var markets = JsonConvert.DeserializeObject<List<MarketX>>(response);
 			foreach (var m in markets)
 				if (m.ClosD > DateTime.UtcNow.AddHours(-0.5))
 					cachedMarkets[m.ID] = m;
@@ -37,7 +37,7 @@ namespace FairlayDotNetClient.Public
 		}
 
 		protected const string Markets = "markets";
-		private readonly Dictionary<long, Market> cachedMarkets = new Dictionary<long, Market>();
+		private readonly Dictionary<long, MarketX> cachedMarkets = new Dictionary<long, MarketX>();
 
 		public async Task<List<string>> GetCompetitions(int category)
 		{
