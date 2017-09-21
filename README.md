@@ -3,7 +3,7 @@
 # Overview
 * Go to [Fairlay.com](https://Fairlay.com) for more information about Fairlay
 * [Public API](https://github.com/Fairlay/FairlayPublicAPI) to grab all markets or competitions on Fairlay (updated every 5s). No account needed.
-* [Private API](https://github.com/Fairlay/FairlayPrivateAPI) for POST requests (creating/changing markets and orders, transfering funds, etc.), costs 1mBTC per 100.000 requests, [see below](#private-api) on how to create your developer API account
+* [Private API](https://github.com/Fairlay/FairlayPrivateAPI) for POST requests (creating/changing markets and orders, transfering funds, etc.), costs 0.1mBTC per 100.000 requests, [see below](#private-api) on how to create your developer API account
 * Other supported libraries:
   * [Python Sample Client](https://github.com/Fairlay/PythonSampleClient)
   * [Old CSharp API](https://github.com/Fairlay/FairlayDotNetClient/tree/old-sample-client) (.NET Desktop, written in .NET 4, outdated, but still works fine, does not use .NET Standard 2.0 and no async/await code)
