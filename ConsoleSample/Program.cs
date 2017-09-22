@@ -18,12 +18,9 @@ namespace FairlayDotNetClient.ConsoleSample
 
 		private static async Task UsePrivateApi()
 		{
-			var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
+			var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials(1004056)
 			{
-				UserId = 1004056,
-				ApiAccountId = 1,
-				PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
-				ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+				PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml)
 			}).Build();
 			var balances = await privateApi.GetBalances();
 			Console.WriteLine("Your current available balance: " +

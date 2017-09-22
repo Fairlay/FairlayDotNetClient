@@ -49,12 +49,9 @@ namespace FairlayDotNetClient.Tests.Private
 		public static readonly RSAParameters ServerPublicRsaParameters =
 			RsaParametersExtensions.FromXmlString(ServerPublicRsaXml);
 
-		public static readonly PrivateApiCredentials Credentials = new PrivateApiCredentials
+		public static readonly PrivateApiCredentials Credentials = new PrivateApiCredentials(1007206)
 		{
-			UserId = 1007206,
-			ApiAccountId = 1,
-			PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
-			ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+			PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml)
 		};
 
 		public static readonly PrivateApiRequest ApiRequest = new PrivateApiRequest(Credentials.UserId,

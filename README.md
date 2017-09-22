@@ -51,12 +51,9 @@ string publicRsaXml = rsaKeyPair.PublicKeyParameters.ToXmlString();
 ### Instantiate the PrivateApi
 Once you have your [developer API key](https://fairlay.com/user/dev/) you only need to instantiate the FairlayClient. Make sure you use the private RSA key just created in `PrivateApiCredentials.PrivateRsaParameters` together with your user id and api account id (see ConsoleSample for an example):
 ```csharp
-var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
+var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials(1004056)
 {
-	UserId = 1004056,
-	ApiAccountId = 1,
-	PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
-	ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+	PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml)
 }).Build();
 ```
 
@@ -89,12 +86,9 @@ UsePrivateApi creates the credentials and passes it into the FairlayPrivateApiBu
 ```csharp
 private static async Task UsePrivateApi()
 {
-	var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
+	var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials(1004056)
 	{
-		UserId = 1004056,
-		ApiAccountId = 1,
-		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
-		ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
+		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml)
 	}).Build();
 	var balances = await privateApi.GetBalances();
 	Console.WriteLine("Your current available balance: " +
@@ -198,13 +192,10 @@ public class MainActivity : Activity
  private async void OnClickBalanceButton(object sender, EventArgs e)
  {
  	var balanceLabel = FindViewById<TextView>(Resource.Id.balanceLabel);
- 	var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
- 	{
- 		UserId = 1004056,
- 		ApiAccountId = 1,
- 		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
- 		ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
- 	}).Build();
+	var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials(1004056)
+	{
+		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml)
+	}).Build();
  	var balances = await privateApi.GetBalances();
  	balanceLabel.Text = "TestAccount Balance: " + balances[0].AvailableFunds + " mBTC";
  }
