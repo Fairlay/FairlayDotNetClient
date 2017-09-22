@@ -1,4 +1,4 @@
-﻿Fairlay provides a simple and powerful API to check globally accessible market data via the [Public API](https://github.com/Fairlay/FairlayPublicAPI) and work with your account data and integrate external providers easily via the [Private API](https://github.com/Fairlay/FairlayPrivateAPI).
+﻿﻿Fairlay provides a simple and powerful API to check globally accessible market data via the [Public API](https://github.com/Fairlay/FairlayPublicAPI) and work with your account data and integrate external providers easily via the [Private API](https://github.com/Fairlay/FairlayPrivateAPI).
 
 # Overview
 * Go to [Fairlay.com](https://Fairlay.com) for more information about Fairlay
@@ -28,6 +28,16 @@ will get all active markets in the boxing category. For details see [Public API]
 # Private API
 If you know how to create your private/public RSA keys, you can skip this step-by-step guide. Just paste your public key into the textbox when creating the [new api account on Fairlay](https://fairlay.com/user/dev/).
 
+### Generate RSA key pair using .NET
+This library includes two static helper classes to generate a private/public RSA key pair and serialize them to XML in the `FairlayDotNetClient.Private` namespace:
+```csharp
+var rsaKeyPair = RsaKeyPairGenerator.GenerateNewRsaKeyPair();
+// Call RsaParametersExtensions.ToXmlString extension to get a XML string representation of the key 
+string privateRsaXml = rsaKeyPair.PrivateKeyParameters.ToXmlString();
+string publicRsaXml = rsaKeyPair.PublicKeyParameters.ToXmlString();
+```
+
+### Generate RSA key pair using OpenSSL
 1. Download [OpenSSL](https://www.openssl.org/), on Windows it is easiest to just install the [Win32 OpenSSL v1.1.0f Light installer from here](https://slproweb.com/products/Win32OpenSSL.html).
 2. Follow the guide on [this wiki](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to generate a new private and public keypair:
 > openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
@@ -38,13 +48,14 @@ If you know how to create your private/public RSA keys, you can skip this step-b
 > openssl rsa -text -in private_key.pem
 6. Now paste the public key in xml format when [creating a new api account](https://fairlay.com/user/dev/), also write down your user id and api id, which are needed below. You will also need your private key to sign all communication with the Fairlay Private API server in the same xml format.
 
-Once you have your [developer API key](https://fairlay.com/user/dev/) you only need to instantiate the FairlayClient. Make sure you use the private rsa key just created in PrivateApiCredentials.PrivateRsaParameters together with your user id and api account id (see ConsoleSample for an example):
+### Instantiate the PrivateApi
+Once you have your [developer API key](https://fairlay.com/user/dev/) you only need to instantiate the FairlayClient. Make sure you use the private RSA key just created in `PrivateApiCredentials.PrivateRsaParameters` together with your user id and api account id (see ConsoleSample for an example):
 ```csharp
 var privateApi = new FairlayPrivateApiBuilder(new PrivateApiCredentials
 {
 	UserId = 1004056,
 	ApiAccountId = 1,
-	PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+	PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
 	ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
 }).Build();
 ```
@@ -82,7 +93,7 @@ private static async Task UsePrivateApi()
 	{
 		UserId = 1004056,
 		ApiAccountId = 1,
-		PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
 		ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
 	}).Build();
 	var balances = await privateApi.GetBalances();
@@ -191,7 +202,7 @@ public class MainActivity : Activity
  	{
  		UserId = 1004056,
  		ApiAccountId = 1,
- 		PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+ 		PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
  		ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
  	}).Build();
  	var balances = await privateApi.GetBalances();

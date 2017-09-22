@@ -39,7 +39,7 @@ namespace FairlayDotNetClient.Tests.Private
 			"DZam1h5Ieqt0JWsw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
 		public static readonly RSAParameters ClientPublicRsaParameters =
-			RsaParametersExtensions.CreateFromXmlString(ClientPublicRsaXml);
+			RsaParametersExtensions.FromXmlString(ClientPublicRsaXml);
 
 		public const string ServerPublicRsaXml =
 			"<RSAKeyValue><Modulus>udnE0+F2lSFLJs3wyQT/2W53juqh1hW9NaEwWMfefkV8FHUJTgJQINBrvja/Ii6i1" +
@@ -47,13 +47,13 @@ namespace FairlayDotNetClient.Tests.Private
 			"DbukHnaVm7m067V+dyk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
 		public static readonly RSAParameters ServerPublicRsaParameters =
-			RsaParametersExtensions.CreateFromXmlString(ServerPublicRsaXml);
+			RsaParametersExtensions.FromXmlString(ServerPublicRsaXml);
 
 		public static readonly PrivateApiCredentials Credentials = new PrivateApiCredentials
 		{
 			UserId = 1007206,
 			ApiAccountId = 1,
-			PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+			PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
 			ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
 		};
 

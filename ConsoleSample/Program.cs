@@ -22,7 +22,7 @@ namespace FairlayDotNetClient.ConsoleSample
 			{
 				UserId = 1004056,
 				ApiAccountId = 1,
-				PrivateRsaParameters = RsaParametersExtensions.CreateFromXmlString(ClientPrivateRsaXml),
+				PrivateRsaParameters = RsaParametersExtensions.FromXmlString(ClientPrivateRsaXml),
 				ServerEndPoint = new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017)
 			}).Build();
 			var balances = await privateApi.GetBalances();
