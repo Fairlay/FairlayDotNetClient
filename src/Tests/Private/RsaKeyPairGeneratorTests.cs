@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using FairlayDotNetClient.Private;
 using NUnit.Framework;
 
@@ -36,6 +37,17 @@ namespace FairlayDotNetClient.Tests.Private
 			Assert.That(privateKeyParameters.Modulus.Length, Is.EqualTo(256));
 			Assert.That(privateKeyParameters.P, Is.Null);
 			Assert.That(privateKeyParameters.Q, Is.Null);
+		}
+
+		/// <summary>
+		/// https://github.com/Fairlay/FairlayDotNetClient#generate-rsa-key-pair-using-net
+		/// </summary>
+		[Test, Category("Slow")]
+		public void CreateRsaKeyPair()
+		{
+			var rsaKeyPair = RsaKeyPairGenerator.GenerateNewRsaKeyPair();
+			Console.WriteLine("Private Key: " + rsaKeyPair.PrivateKeyParameters.ToXmlString());
+			Console.WriteLine("Public Key: " + rsaKeyPair.PublicKeyParameters.ToXmlString());
 		}
 	}
 }

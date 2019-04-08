@@ -28,7 +28,7 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 		public async Task DoGetServerTimeRequestToRealApiServer()
 		{
 			const string GetServerTimeRequestHeader = "2";
-			apiConnection.SetEndpoint(TestData.Credentials.ServerEndPoint);
+			apiConnection.SetEndPoints(TestData.Credentials.ServerEndPoints);
 			var request = requestBuilder.BuildRequest(GetServerTimeRequestHeader);
 			var signedRequest = requestSigner.SignRequest(request, requestNonceGenerator.GenerateNonce());
 			var response = await apiConnection.DoApiRequest(signedRequest);

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
-namespace FairlayDotNetClient.Private.Datatypes {
+namespace FairlayDotNetClient.Private.Datatypes
+{
 	public class UnmatchedOrder : IComparable<UnmatchedOrder>
 	{
 		public enum UOState

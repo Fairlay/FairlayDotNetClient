@@ -43,7 +43,7 @@ namespace FairlayDotNetClient.Public
 			public const int RESERVED6 = 36;
 			public const int RESERVED = 37;
 			public const int CYCLING = 38;
-			public const int RESERVED9 = 39;
+			public const int EXCHANGE = 39;
 			public const int BITCOIN = 40;
 			public const int BADMINTON = 42;
 		}
@@ -106,7 +106,7 @@ namespace FairlayDotNetClient.Public
 		
 		public MarketX(MarketType mtype, MarketPeriod mper, string title, string competition,
 			int creator, string description, int category, DateTime closing, DateTime settling,
-			string[] runnerNames, bool inplay = false, decimal commission = 0.02m)
+			string[] runnerNames, decimal[] runnerVolMatched, bool inplay = false, decimal commission = 0.02m)
 		{
 			_Period = mper;
 			_Type = mtype;
@@ -124,7 +124,7 @@ namespace FairlayDotNetClient.Public
 			Status = inplay ? StatusType.INPLAY : StatusType.ACTIVE;
 			Ru = new Runner[runnerNames.Length];
 			for (int i = 0; i < runnerNames.Length; i++)
-				Ru[i] = new Runner(runnerNames[i], 6000);
+				Ru[i] = new Runner(runnerNames[i], 6000, runnerVolMatched[i]);
 		}
 
 		public string OrdBStr;
@@ -176,7 +176,7 @@ namespace FairlayDotNetClient.Public
 		public override string ToString() => ToString(0);
 
 		public string ToString(int rid)
-			=> Comp + " " + Title + " " + _Period + " " + _Type + " " + Margin.ToString(
+			=> ID + ": "+ Comp + " " + Title + " " + _Period + " " + _Type + " " + Margin.ToString(
 				CultureInfo.InvariantCulture) + " " + Ru[rid].Name + " " + ClosD + " " + OrdBStr;
 	}
 }

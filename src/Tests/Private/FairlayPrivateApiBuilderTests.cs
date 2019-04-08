@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using FairlayDotNetClient.Private;
@@ -56,7 +57,7 @@ namespace FairlayDotNetClient.Tests.Private
 		{
 			var apiConnection = new DummyApiConnectionSpy();
 			Assert.That(builder.UseApiConnection(apiConnection), Is.EqualTo(builder));
-			Assert.That(apiConnection.EndPoint, Is.EqualTo(TestData.Credentials.ServerEndPoint));
+			Assert.That(apiConnection.EndPoint, Is.EqualTo(TestData.Credentials.ServerEndPoints[0]));
 			AssertCanFairlayPrivateApi();
 		}
 
@@ -89,7 +90,7 @@ namespace FairlayDotNetClient.Tests.Private
 
 		private class DummyApiConnectionSpy : PrivateApiConnection
 		{
-			public void SetEndpoint(IPEndPoint endPoint) => EndPoint = endPoint;
+			public void SetEndPoints(List<IPEndPoint> endPoints) => EndPoint = endPoints[0];
 			public IPEndPoint EndPoint { get; private set; }
 			public Task<PrivateApiResponse> DoApiRequest(SignedPrivateApiRequest request)
 				=> null; //ncrunch: no coverage

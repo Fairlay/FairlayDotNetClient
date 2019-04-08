@@ -5,8 +5,8 @@ namespace FairlayDotNetClient.Private
 {
 	public class FairlayPrivateApiBuilder : PrivateApiBuilder
 	{
-		public FairlayPrivateApiBuilder(PrivateApiCredentials credentials) =>
-			this.credentials = credentials;
+		public FairlayPrivateApiBuilder(PrivateApiCredentials credentials)
+			=> this.credentials = credentials;
 
 		private readonly PrivateApiCredentials credentials;
 
@@ -40,7 +40,7 @@ namespace FairlayDotNetClient.Private
 		public PrivateApiBuilder UseApiConnection(PrivateApiConnection apiConnection)
 		{
 			currentApiConnection = apiConnection;
-			currentApiConnection.SetEndpoint(credentials.ServerEndPoint);
+			currentApiConnection.SetEndPoints(credentials.ServerEndPoints);
 			return this;
 		}
 

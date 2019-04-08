@@ -1,11 +1,15 @@
 ﻿namespace FairlayDotNetClient.Private.Datatypes
 {
+	/// <summary>
+	/// https://fairlay.com/api
+	/// </summary>
 	public static class REQ
 	{
 		public const string GETPUBLICKEY = "GETPUBLICKEY";
 		public const int GETORDERBOOK = 1;
 		public const int GETSERVERTIME = 2;
 		public const int GETMARKET = 6;
+		public const int GETMARKETS = 7; // TODO finish, currently using public api
 		public const int CREATEMARKET = 11;
 		public const int CANCELORDERSONMARKET = 10;
 		public const int CANCELALLORDERS = 16;
@@ -20,6 +24,7 @@
 		public const int GETTOPHASH = 41;
 		public const int GETPROOFOFRESERVES = 42;
 		public const int GETMYPROOFID = 50;
+		public const int CREATEORDER = 62;
 		public const int CANCELMATCHEDORDER = 9;
 		public const int CONFIRMMATCHEDORDER = 88;
 		public const int TRANSFERFUNDS = 81;

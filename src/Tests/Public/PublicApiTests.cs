@@ -39,5 +39,14 @@ namespace FairlayDotNetClient.Tests.Public
 			Assert.That(competitions, Is.Not.Empty);
 			Console.WriteLine(competitions[0]);
 		}
+
+		[Test]
+		public async Task GetExchangeMarkets()
+		{
+			var markets = await api.GetMarkets(MarketX.Category.EXCHANGE);
+			Console.WriteLine("Exchange markets: " + markets.Count);
+			foreach (var market in markets)
+				Console.WriteLine(market);
+		}
 	}
 }

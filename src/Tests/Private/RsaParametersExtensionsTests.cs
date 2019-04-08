@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using FairlayDotNetClient.Private;
 using NUnit.Framework;
@@ -15,6 +14,7 @@ namespace FairlayDotNetClient.Tests.Private
 			{
 				var rsaParameters = RsaParametersExtensions.FromXmlString(TestData.ClientPrivateRsaXml);
 				rsa.ImportParameters(rsaParameters);
+#pragma warning disable IDE0008 // Use explicit type
 				var originalData = Encoding.UTF8.GetBytes("Hello World");
 				var encryptedData = rsa.Encrypt(originalData, RSAEncryptionPadding.Pkcs1);
 				var decryptedData = rsa.Decrypt(encryptedData, RSAEncryptionPadding.Pkcs1);

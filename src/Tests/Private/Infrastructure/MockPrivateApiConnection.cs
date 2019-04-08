@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
@@ -32,12 +33,12 @@ namespace FairlayDotNetClient.Tests.Private.Infrastructure
 			var inMemoryResponseStream = new MemoryStream();
 			SetResponseStream(inMemoryResponseStream);
 			string apiResponseMessage = currentFakeResponse.FormatIntoApiResponseMessage();
-			var apiResponseMessageData = Encoding.UTF8.GetBytes(apiResponseMessage);
+			byte[] apiResponseMessageData = Encoding.UTF8.GetBytes(apiResponseMessage);
 			using (var zipStream = new GZipStream(inMemoryResponseStream, CompressionMode.Compress, true))
 				zipStream.Write(apiResponseMessageData, 0, apiResponseMessageData.Length);
 			inMemoryResponseStream.Seek(0, SeekOrigin.Begin);
 		}
 
-		public override void SetEndpoint(IPEndPoint endPoint) { } //ncrunch: no coverage
+		public override void SetEndPoints(List<IPEndPoint> endPoints) {} //ncrunch: no coverage
 	}
 }

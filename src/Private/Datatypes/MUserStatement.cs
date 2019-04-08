@@ -14,6 +14,9 @@ namespace FairlayDotNetClient.Private.Datatypes
 		
 		public long ID;
 		public string Descr;
+		/// <summary>
+		/// <see cref="StatementType"/>
+		/// </summary>
 		public int T;
 		public decimal Am;
 		public decimal Bank;

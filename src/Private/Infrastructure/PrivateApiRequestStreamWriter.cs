@@ -14,7 +14,7 @@ namespace FairlayDotNetClient.Private.Infrastructure
 		public Task WriteRequest(SignedPrivateApiRequest request)
 		{
 			string apiRequestMessage = request.FormatIntoApiRequestMessage();
-			var apiRequestMessageData = Encoding.UTF8.GetBytes(apiRequestMessage);
+			byte[] apiRequestMessageData = Encoding.UTF8.GetBytes(apiRequestMessage);
 			return requestStream.WriteAsync(apiRequestMessageData, 0, apiRequestMessageData.Length);
 		}
 	}

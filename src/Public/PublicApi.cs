@@ -13,16 +13,23 @@ namespace FairlayDotNetClient.Public
 		protected const string Time = "time";
 
 		public Task<List<MarketX>> GetMarkets(int category, string[] runnerAnd = null,
-			int[] typeOr = null, int[] periodOr = null, bool onlyActive = true)
+			int[] typeOr = null, int[] periodOr = null, bool onlyActive = true, string changedAfter = null, string softChangedAfter = null, int fromID = 0, int toID = 0)
 			=> GetMarkets("\"Cat\":" + category +
 				(runnerAnd != null ? ",\"RunnerAND\":[\"" + runnerAnd.ToText("\",\"") + "\"]" : "") +
 				(typeOr != null ? ",\"TypeOr\":[" + typeOr.ToText() + "]" : "") +
 				(periodOr != null ? ",\"PeriodOr\":[" + periodOr.ToText() + "]" : "") +
-				", \"OnlyActive\":" + onlyActive.ToString().ToLower());
+				", \"OnlyActive\":" + onlyActive.ToString().ToLower() +
+				(changedAfter != null ? ", \"ChangedAfter\":\"" + changedAfter + "\"" : "") +
+				(softChangedAfter != null ? ", \"SoftChangedAfter\":\"" + softChangedAfter + "\"" : "") +
+				(fromID > 0 ? ", \"FromID\":" + fromID : "") +
+				(toID > 0 ? ", \"ToID\":" + toID : ""));
 
-		public async Task<List<MarketX>> GetMarkets(string jsonParameters)
+		public async Task<List<MarketX>> GetMarkets(string jsonParameters, bool includeOnlyChangedMarkets = false)
 		{
-			string response = await GetServerResponse(Markets, jsonParameters);
+			if (includeOnlyChangedMarkets)
+				jsonParameters = jsonParameters + ",\"ToID\":10000,\"SoftChangedAfter\":" +
+					JsonConvert.SerializeObject(lastCall.AddSeconds(-10).AddTicks(-serverTimeOffset));
+			string response = await GetServerResponse(Markets, "{" + jsonParameters + "}");
 			var markets = JsonConvert.DeserializeObject<List<MarketX>>(response);
 			foreach (var m in markets)
 				if (m.ClosD > DateTime.UtcNow.AddHours(-0.5))
@@ -32,7 +39,7 @@ namespace FairlayDotNetClient.Public
 				if (m.Value.ClosD < DateTime.UtcNow.AddHours(-2))
 					rememberIdsToDelete.Add(m.Key); //ncrunch: no coverage
 			foreach (long mid in rememberIdsToDelete)
-				cachedMarkets.Remove(mid); //ncrunch: no coverage
+				cachedMarkets.Remove(mid); //ncrunch: no coverage TODO remove cache
 			return cachedMarkets.Values.ToList();
 		}
 
@@ -54,9 +61,6 @@ namespace FairlayDotNetClient.Public
 				serverTimeOffset = DateTime.UtcNow.Ticks - (await GetServerTime()).Ticks;
 				lastServerTimeOffsetCalculated = DateTime.UtcNow;
 			}
-			if (method == Markets)
-				parameters = "{" + parameters + ",\"ToID\":10000,\"SoftChangedAfter\":" +
-					JsonConvert.SerializeObject(lastCall.AddSeconds(-10).AddTicks(-serverTimeOffset)) + "}";
 			string response = await GetHttpResponse(method, parameters);
 			if (string.IsNullOrEmpty(response) || response.Contains("XError") ||
 				response == "Not supported")

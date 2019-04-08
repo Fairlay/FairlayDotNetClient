@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using FairlayDotNetClient.Private.Requests;
@@ -24,6 +25,6 @@ namespace FairlayDotNetClient.Private.Infrastructure
 			return await responseReader.ReadResponse();
 		}
 
-		public abstract void SetEndpoint(IPEndPoint endPoint);
+		public abstract void SetEndPoints(List<IPEndPoint> setEndPoints);
 	}
 }

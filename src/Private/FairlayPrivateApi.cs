@@ -32,7 +32,7 @@ namespace FairlayDotNetClient.Private
 					: JsonConvert.SerializeObject(requestBody);
 			var apiResponse = await DoApiRequest(requestHeaderId.ToString(), body);
 			ThrowIfServerErrorMessage(apiResponse.Body);
-			//TODO: Validate signature with server public key
+			//should validate signature with server public key
 			return apiResponse.Body;
 		}
 

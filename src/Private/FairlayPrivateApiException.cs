@@ -4,6 +4,6 @@ namespace FairlayDotNetClient.Private
 {
 	public class FairlayPrivateApiException : Exception
 	{
-		public FairlayPrivateApiException(string error) : base(error) { }
+		public FairlayPrivateApiException(string error) : base(error) {}
 	}
 }

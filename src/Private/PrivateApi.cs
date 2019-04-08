@@ -24,6 +24,12 @@ namespace FairlayDotNetClient.Private
 			return new DateTimeOffset().AddTicks(serverTimeTicks);
 		}
 
+		public async Task<List<MUserTransfer>> GetMarkets(DateTimeOffset sinceDate)
+		{
+			string response = await DoApiRequestAndVerify(REQ.GETTRANSFERS, sinceDate.UtcTicks);
+			return response == null ? null : JsonConvert.DeserializeObject<List<MUserTransfer>>(response);
+		}
+
 		public async Task<List<MUserTransfer>> GetTransfers(DateTimeOffset sinceDate)
 		{
 			string response = await DoApiRequestAndVerify(REQ.GETTRANSFERS, sinceDate.UtcTicks);
@@ -33,24 +39,36 @@ namespace FairlayDotNetClient.Private
 		/// <summary>
 		/// Returns the Balances of all Currencies /0 is Bitcoin /1 Ethereum /2 Litecoin,
 		/// Get a full list by querying all available Currencies via GETCURRENCIES
+		/// If authentication fails return null, no balance avaliable 
 		/// </summary>
 		public async Task<Dictionary<int, ReturnBalance>> GetBalances(int currencyID = -1)
 		{
-			string response = await DoApiRequestAndVerify(REQ.GETMYBALANCEV2, currencyID);
-			return response == null ? null
-				: JsonConvert.DeserializeObject<Dictionary<int, ReturnBalance>>(response);
+			try
+			{
+				string response = await DoApiRequestAndVerify(REQ.GETMYBALANCEV2, currencyID);
+				return response == null ? null
+					: JsonConvert.DeserializeObject<Dictionary<int, ReturnBalance>>(response);
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		/// <summary>
 		/// Transfers funds to another user. By default mBTC (currency ID 0 ) are transfered
 		/// </summary>
-		public async Task<bool> TransferFunds(int receiverUserId, string description, PaymentType type,
+		public async Task<long> TransferFunds(int receiverUserId, string description, PaymentType type,
 			decimal amount, int currencyId = 0)
 		{
 			var userTransfer = new MUserTransfer(OurUserId, receiverUserId, description, (int)type,
 				amount, currencyId);
 			string answer = await DoApiRequestAndVerify(REQ.TRANSFERFUNDS, userTransfer);
-			return answer != null;
+			Console.WriteLine("User transfer " + amount + ", cur=" + currencyId + " to " +
+				receiverUserId + ": " + answer);
+			if (answer == null)
+				throw new FairlayPrivateApiException("Transfer funds failed");
+			return userTransfer.ID2;
 		}
 
 		public async Task<bool> AddOrChangeCurrency(Currency cur)
@@ -87,6 +105,22 @@ namespace FairlayDotNetClient.Private
 			return verified;
 		}
 
+		public async Task<UnmatchedOrder> CreateOrder(long marketId, int runnerId, bool bid,
+			decimal price, decimal amount, int type = 2, string matchesubuser = "order",
+			int pendingperiod = 6000)
+		{
+			//Example: 71601335718 | 0 | 1 | 1.56 | 100.1 | 2 | testorder | 6000
+			string request = marketId + "|" + runnerId + "|" + (bid ? 0 : 1) + "|" + price + "|" +
+				amount + "|" + type + "|" + matchesubuser + "|" + pendingperiod;
+			string response = await DoApiRequestAndVerify(REQ.CREATEORDER, request);
+			if (response == null)
+				throw new UnableToCreateOrder();
+			var unmatchedOrder = JsonConvert.DeserializeObject<UnmatchedOrder>(response);
+			return unmatchedOrder;
+		}
+
+		public class UnableToCreateOrder : Exception {}
+
 		public async Task<string[]> GetOrderbook(long mid)
 		{
 			string ts = await DoApiRequestAndVerify(REQ.GETORDERBOOK, mid);
@@ -114,7 +148,9 @@ namespace FairlayDotNetClient.Private
 			return response == null ? null : JsonConvert.DeserializeObject<List<SettleReq>>(response);
 		}
 
-		// Provide the UTC time in Ticks.
+		/// <summary>
+		/// Provide the UTC time in Ticks.
+		/// </summary>
 		public async Task<List<MUserStatement>> GetStatement(DateTime sinceDate)
 		{
 			string answer = await DoApiRequestAndVerify(REQ.GETSTATEMENT, sinceDate.Ticks);
@@ -386,7 +422,7 @@ namespace FairlayDotNetClient.Private
 		/// You will receive mBTCs in exchange for fairlay credits if you send funds to the user 111111
 		/// for example. withdrawal fees are subject to change.
 		/// </summary>
-		public Task<bool> DoWithdrawal(string address, decimal amountMbtc)
+		public Task DoWithdrawal(string address, decimal amountMbtc)
 			=> TransferFunds(111111, address, PaymentType.Payments, amountMbtc);
 
 		/// <summary>
@@ -435,6 +471,21 @@ namespace FairlayDotNetClient.Private
 		{
 			string cancelResult = await DoApiRequestAndVerify(REQ.SETSETTLEDELEGATES, accountIds);
 			return cancelResult != null && cancelResult.Contains("success");
+		}
+
+		public async Task<List<MAPIUser>> GetApiAccounts()
+		{
+			string result = await DoApiRequestAndVerify(REQ.GETAPIACCOUNTS);
+			if (result == null)
+				return new List<MAPIUser>();
+			var accounts = JsonConvert.DeserializeObject<Dictionary<int, MAPIUser>>(result);
+			var accountList = new List<MAPIUser>();
+			foreach (var account in accounts)
+			{
+				account.Value.ID = account.Key;
+				accountList.Add(account.Value);
+			}
+			return accountList;
 		}
 	}
 }
