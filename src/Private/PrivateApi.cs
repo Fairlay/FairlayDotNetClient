@@ -115,8 +115,7 @@ namespace FairlayDotNetClient.Private
 			string response = await DoApiRequestAndVerify(REQ.CREATEORDER, request);
 			if (response == null)
 				throw new UnableToCreateOrder();
-			var unmatchedOrder = JsonConvert.DeserializeObject<UnmatchedOrder>(response);
-			return unmatchedOrder;
+			return JsonConvert.DeserializeObject<UnmatchedOrder>(response);
 		}
 
 		public class UnableToCreateOrder : Exception {}
