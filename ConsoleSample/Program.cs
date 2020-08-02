@@ -1,5 +1,6 @@
 ﻿using FairlayDotNetClient.Public;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using FairlayDotNetClient.Private;
 using FairlayDotNetClient.Private.Datatypes;

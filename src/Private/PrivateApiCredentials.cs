@@ -15,9 +15,13 @@ namespace FairlayDotNetClient.Private
 		public PrivateApiCredentials()
 			=> ServerEndPoints = new List<IPEndPoint>
 			{
+				/*2020-03-31: ips have changed
 				new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017),
-				//currently offline: new IPEndPoint(IPAddress.Parse("31.172.83.66"), 18017),
+				new IPEndPoint(IPAddress.Parse("31.172.83.66"), 18017),
 				new IPEndPoint(IPAddress.Parse("31.172.83.181"), 18017)
+				*/
+				new IPEndPoint(IPAddress.Parse("185.185.25.238"), 18017),
+				new IPEndPoint(IPAddress.Parse("185.185.25.245"), 18017)
 			};
 
 		public int UserId { get; set; }

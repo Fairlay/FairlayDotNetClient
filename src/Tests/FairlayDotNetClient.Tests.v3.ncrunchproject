@@ -13,6 +13,12 @@
       <NamedTestSelector>
         <TestName>FairlayDotNetClient.Tests.Private.PrivateApiExtensionsTests.TestGetBalances</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>FairlayDotNetClient.Tests.Private.PrivateApiTests.TestGetBalances</TestName>
+      </NamedTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>FairlayDotNetClient.Tests.Private.PrivateApiTests</FixtureName>
+      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

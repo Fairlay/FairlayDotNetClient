@@ -9,8 +9,9 @@ namespace FairlayDotNetClient.Tests.Private
 	public class PrivateApiTests
 	{
 		[SetUp]
-		public void Initialize()
+		public void Initilize()
 			=> privateApi = new FairlayPrivateApiBuilder(TestData.Credentials).Build();
+
 
 		private PrivateApi privateApi;
 
@@ -50,6 +51,15 @@ namespace FairlayDotNetClient.Tests.Private
 			foreach (var account in accounts)
 				Console.WriteLine("Account ID: " + account.ID + " DailySpent: " + account.DailySpent +
 					" ReadOnly: " + account.ReadOnly);
+		}
+
+		[Test]
+		public async Task GetOrderbook()
+		{
+			var orderbook = await privateApi.GetOrderbook(206996190189);
+			Assert.That(orderbook, Is.Not.Empty);
+			foreach (var order in orderbook)
+				Console.WriteLine("Order: " + order);
 		}
 	}
 }
