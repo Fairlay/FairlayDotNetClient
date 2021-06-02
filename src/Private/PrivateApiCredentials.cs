@@ -12,16 +12,19 @@ namespace FairlayDotNetClient.Private
 			ApiAccountId = apiAccountId;
 		}
 
-		public PrivateApiCredentials()
-			=> ServerEndPoints = new List<IPEndPoint>
+		public PrivateApiCredentials() =>
+			ServerEndPoints = new List<IPEndPoint>
 			{
 				/*2020-03-31: ips have changed
 				new IPEndPoint(IPAddress.Parse("31.172.83.53"), 18017),
 				new IPEndPoint(IPAddress.Parse("31.172.83.66"), 18017),
 				new IPEndPoint(IPAddress.Parse("31.172.83.181"), 18017)
 				*/
+				/*2021-06-02: Ips have changed again
 				new IPEndPoint(IPAddress.Parse("185.185.25.238"), 18017),
 				new IPEndPoint(IPAddress.Parse("185.185.25.245"), 18017)
+				*/
+				new IPEndPoint(IPAddress.Parse("83.171.236.114"), 18017)
 			};
 
 		public int UserId { get; set; }
