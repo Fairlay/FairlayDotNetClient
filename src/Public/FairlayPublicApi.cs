@@ -10,7 +10,7 @@ namespace FairlayDotNetClient.Public
 	public class FairlayPublicApi : PublicApi
 	{
 		protected override Task<string> GetHttpResponse(string method, string parameters)
-			=> GetHttpResponse("http://185.185.25.238:8080/free" + new Random().Next(1, 10) + "/" +
+			=> GetHttpResponse("http://83.171.236.114:8080/free" + new Random().Next(1, 10) + "/" +
 				method + "/"+parameters);
 
 		private static async Task<string> GetHttpResponse(string url)

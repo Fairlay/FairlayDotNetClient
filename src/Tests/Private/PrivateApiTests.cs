@@ -9,7 +9,7 @@ namespace FairlayDotNetClient.Tests.Private
 	public class PrivateApiTests
 	{
 		[SetUp]
-		public void Initilize()
+		public void Initialize()
 			=> privateApi = new FairlayPrivateApiBuilder(TestData.Credentials).Build();
 
 
